@@ -1,0 +1,27 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Android / Gradle
+frontend/app/build/
+frontend/build/
+frontend/.gradle/
+frontend/local.properties
+
+# Java / Maven
+backend/target/
+backend/.mvn/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Environment
+.env
+application-*.yml
+!application.yml
