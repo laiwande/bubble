@@ -39,7 +39,7 @@ APK 输出：`frontend/app/build/outputs/apk/debug/app-debug.apk`
 
 ## 前端接口配置
 
-修改 `ApiService.java` 中的 base URL：
+修改 `ApiClient.java` 中的 base URL：
 
 ```java
 // 模拟器访问宿主机用 10.0.2.2
