@@ -44,12 +44,22 @@ public class JwtUtil {
     }
 
     public static Long getUserIdFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-        return Long.parseLong(claims.getSubject());
+        try {
+            System.out.println("=== JWT DEBUG: starting parse, token length=" + (token != null ? token.length() : "null"));
+            System.out.println("=== JWT DEBUG: secret=" + (secret != null ? "SET (" + secret.length() + " chars)" : "NULL!!!"));
+            Claims claims = Jwts.parser()
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+            String subject = claims.getSubject();
+            System.out.println("=== JWT DEBUG: parsed subject='" + subject + "'");
+            return Long.parseLong(subject);
+        } catch (Exception e) {
+            System.err.println("=== JWT ERROR: getUserIdFromToken failed: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static boolean validateToken(String token) {

@@ -21,11 +21,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public String login(UserLoginDTO loginDTO) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUsername, loginDTO.getUsername());
+        wrapper.eq(User::getEmail, loginDTO.getEmail());
         User user = getOne(wrapper);
 
         if (user == null) {
-            throw new RuntimeException("用户不存在");
+            throw new RuntimeException("邮箱未注册");
         }
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
@@ -38,13 +38,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void register(UserRegisterDTO registerDTO) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUsername, registerDTO.getUsername());
+        wrapper.eq(User::getEmail, registerDTO.getEmail());
         if (getOne(wrapper) != null) {
-            throw new RuntimeException("用户名已存在");
+            throw new RuntimeException("邮箱已被注册");
         }
 
         User user = new User();
-        BeanUtils.copyProperties(registerDTO, user);
+        user.setEmail(registerDTO.getEmail());
+        user.setUsername(registerDTO.getUsername());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         save(user);
     }

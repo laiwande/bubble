@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private SharedPreferencesUtil sharedPreferencesUtil;
 
+    private boolean isRegisterMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,21 +34,42 @@ public class LoginActivity extends AppCompatActivity {
 
         sharedPreferencesUtil = new SharedPreferencesUtil(this);
 
-        binding.btnLogin.setOnClickListener(v -> login());
-        binding.tvRegisterLink.setOnClickListener(v -> register());
+        binding.btnLogin.setOnClickListener(v -> {
+            if (isRegisterMode) {
+                register();
+            } else {
+                login();
+            }
+        });
+        binding.tvRegisterLink.setOnClickListener(v -> toggleMode());
+    }
+
+    private void toggleMode() {
+        isRegisterMode = !isRegisterMode;
+        if (isRegisterMode) {
+            binding.tilUsername.setVisibility(View.VISIBLE);
+            binding.btnLogin.setText("Register");
+            binding.tvRegisterPrefix.setText("已有帐户？ ");
+            binding.tvRegisterLink.setText("登录");
+        } else {
+            binding.tilUsername.setVisibility(View.GONE);
+            binding.btnLogin.setText("Login");
+            binding.tvRegisterPrefix.setText("没有帐户？ ");
+            binding.tvRegisterLink.setText("注册");
+        }
     }
 
     private void login() {
-        String username = binding.etUsername.getText().toString().trim();
+        String email = binding.etEmail.getText().toString().trim();
         String password = binding.etPassword.getText().toString().trim();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "请输入邮箱和密码", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Map<String, String> loginData = new HashMap<>();
-        loginData.put("username", username);
+        loginData.put("email", email);
         loginData.put("password", password);
 
         ApiService apiService = ApiClient.getApiService();
@@ -77,18 +100,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void register() {
-        String username = binding.etUsername.getText().toString().trim();
+        String email = binding.etEmail.getText().toString().trim();
         String password = binding.etPassword.getText().toString().trim();
+        String username = binding.etUsername.getText().toString().trim();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
+        if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
+            Toast.makeText(this, "请输入邮箱、用户名和密码", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Map<String, String> registerData = new HashMap<>();
-        registerData.put("username", username);
+        registerData.put("email", email);
         registerData.put("password", password);
-        registerData.put("nickname", username);
+        registerData.put("username", username);
 
         ApiService apiService = ApiClient.getApiService();
         apiService.register(registerData).enqueue(new Callback<Result<Void>>() {

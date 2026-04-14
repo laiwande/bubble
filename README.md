@@ -45,3 +45,11 @@ APK 输出：`frontend/app/build/outputs/apk/debug/app-debug.apk`
 // 模拟器访问宿主机用 10.0.2.2
 private static final String BASE_URL = "http://10.0.2.2:8080/api/";
 ```
+
+## 默认账号
+
+后端首次启动时会自动创建管理员账号：
+
+| 用户名 | 密码 | 邮箱 |
+|--------|------|------|
+| `admin` | `admin123` | `admin@bubble.com` |

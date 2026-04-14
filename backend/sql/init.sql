@@ -166,3 +166,7 @@ CREATE TABLE message_read (
 INSERT INTO label (name) VALUES
 ('音乐'), ('运动'), ('电影'), ('旅游'), ('动漫'),
 ('游戏'), ('摄影'), ('美食'), ('读书'), ('科技');
+
+-- 默认管理员账号（密码: admin123, 已通过 BCrypt 加密）
+INSERT INTO user (username, password, nickname, email, status) VALUES
+('admin', '$2a$10$N.ZOn9G6/YLFixAOPMg/h.z7pCu6v2XyFDtC4q.jeeGM/TEZyj1qa', 'Admin', 'admin@bubble.com', 1);
