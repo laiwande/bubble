@@ -8,6 +8,7 @@ frontend/app/build/
 frontend/build/
 frontend/.gradle/
 frontend/local.properties
+frontend/gradle/wrapper/gradle-wrapper.jar
 
 # Java / Maven
 backend/target/
