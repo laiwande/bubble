@@ -1,6 +1,6 @@
 # 🫧 Bubble 社交社区
 
-该项目作为上海电力大学信管Java课设，是一个基于兴趣群组的社交社区 Android 应用
+该项目作为上海电力大学信管软件开发课设，是一个基于兴趣群组的社交社区 Android 应用，所有界面设计皆为原创
 
 项目后端基于 Spring Boot + MyBatis Plus 构建，前端采用 Android 原生开发（Java），通过 RESTful API 实现前后端交互
 
@@ -106,30 +106,3 @@ private static final String BASE_URL = "http://10.0.2.2:8080/api/";
 | 用户名 | 密码 | 邮箱 |
 |--------|------|------|
 | `admin` | `admin123` | `admin@bubble.com` |
-
-## 📂 项目结构
-
-```
-bubble/
-├── backend/
-│   ├── src/main/java/com/bubble/
-│   │   ├── entity/        # 数据库实体类（12个）
-│   │   ├── mapper/        # MyBatis Plus Mapper 接口
-│   │   ├── service/       # 业务逻辑层
-│   │   ├── controller/    # REST API 控制器
-│   │   ├── dto/           # 数据传输对象
-│   │   ├── dvo/           # 数据视图对象
-│   │   ├── config/        # 配置类（Redis/WebMvc/DataInitializer等）
-│   │   ├── util/          # 工具类（JwtUtil）
-│   │   ├── interceptor/   # JWT 认证拦截器
-│   │   └── common/result/ # 统一响应封装
-│   └── sql/init.sql       # 数据库初始化脚本（12张表）
-└── frontend/
-    └── app/src/main/
-        ├── java/com/bubble/
-        │   ├── ui/        # Activity（LoginActivity / MainActivity）
-        │   ├── model/     # 数据模型
-        │   ├── network/   # Retrofit 网络请求（ApiService 18个接口）
-        │   └── utils/     # 工具类（SharedPreferencesUtil Token存储）
-        └── res/           # 资源文件（布局/图标/主题）
-```

@@ -3,9 +3,11 @@ package com.bubble.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bubble.R;
 import com.bubble.databinding.ActivityLoginBinding;
 import com.bubble.model.Result;
 import com.bubble.network.ApiClient;
@@ -42,6 +44,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         binding.tvRegisterLink.setOnClickListener(v -> toggleMode());
+
+        // Bottom navigation click listeners
+        binding.bottomNav.findViewById(R.id.tab_bubble).setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, BubbleActivity.class));
+        });
+
+        binding.bottomNav.findViewById(R.id.tab_square).setOnClickListener(v -> {
+            // Square tab - to be implemented
+        });
+
+        binding.bottomNav.findViewById(R.id.tab_add).setOnClickListener(v -> {
+            // Add tab - to be implemented
+        });
+
+        binding.bottomNav.findViewById(R.id.tab_chat).setOnClickListener(v -> {
+            // Chat tab - to be implemented
+        });
+
+        binding.bottomNav.findViewById(R.id.tab_me).setOnClickListener(v -> {
+            // Me tab - to be implemented
+        });
     }
 
     private void toggleMode() {

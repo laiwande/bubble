@@ -36,7 +36,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:paddingHorizontal="32dp"
+        android:paddingHorizontal="48dp"
         android:gravity="top"
         android:layout_marginTop="60dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_nav"
@@ -48,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="email*"
+            android:textColorHint="#D0D0D0"
             android:fontFamily="@font/archivo_black"
             app:boxBackgroundMode="filled"
             app:boxBackgroundColor="@android:color/white"
@@ -64,7 +65,8 @@
                 android:layout_height="56dp"
                 android:inputType="textEmailAddress"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,6 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="username*"
+            android:textColorHint="#D0D0D0"
             android:fontFamily="@font/archivo_black"
             android:visibility="gone"
             app:boxBackgroundMode="filled"
@@ -99,6 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="code*"
+            android:textColorHint="#D0D0D0"
             android:fontFamily="@font/archivo_black"
             app:boxBackgroundMode="filled"
             app:boxBackgroundColor="@android:color/white"
@@ -116,7 +120,8 @@
                 android:layout_height="56dp"
                 android:inputType="textPassword"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,7 +136,7 @@
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:fontFamily="@font/archivo_black"
-            app:cornerRadius="28dp" />
+            app:cornerRadius="12dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
