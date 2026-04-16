@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <!-- 背景图 仿login：直接ImageView + fitXY，无圆角 -->
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_me"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="40dp" />
+
+    <ScrollView
+        android:id="@+id/scroll_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="75dp"
+            android:paddingBottom="54dp"
+            android:clipChildren="false">
+
+            <!-- 右上角：点击登录 + User 图标 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="点击登录"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/inter_regular" />
+
+                <ImageView
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/ic_me_user"
+                    android:scaleType="fitCenter" />
+
+            </LinearLayout>
+
+            <!-- Account 标题 -->
+            <TextView
+                android:id="@+id/tv_account_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Account"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter_regular" />
+
+            <!-- 第一组：4个图标 + 文本 + 箭头 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <ImageView android:layout_width="25dp" android:layout_height="25dp" android:src="@drawable/ic_me_manage" android:scaleType="fitCenter" android:layout_marginStart="7dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="Manage My Label" android:textColor="@android:color/white" android:textSize="14sp" android:fontFamily="@font/inter_regular" />
+                <ImageView android:layout_width="6dp" android:layout_height="10dp" android:src="@drawable/ic_me_next" android:scaleType="fitCenter" android:layout_marginEnd="20dp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="0dp">
+                <ImageView android:layout_width="25dp" android:layout_height="25dp" android:src="@drawable/ic_me_safety" android:scaleType="fitCenter" android:layout_marginStart="7dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="Privacy and Safety" android:textColor="@android:color/white" android:textSize="14sp" android:fontFamily="@font/inter_regular" />
+                <ImageView android:layout_width="6dp" android:layout_height="10dp" android:src="@drawable/ic_me_next" android:scaleType="fitCenter" android:layout_marginEnd="20dp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="0dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_me_balance" android:scaleType="fitCenter" android:layout_marginStart="10dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="My Balance" android:textColor="@android:color/white" android:textSize="14sp" android:fontFamily="@font/inter_regular" />
+                <ImageView android:layout_width="6dp" android:layout_height="10dp" android:src="@drawable/ic_me_next" android:scaleType="fitCenter" android:layout_marginEnd="20dp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="0dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_me_share" android:scaleType="fitCenter" android:layout_marginStart="10dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="Share my Profile" android:textColor="@android:color/white" android:textSize="14sp" android:fontFamily="@font/inter_regular" />
+                <ImageView android:layout_width="6dp" android:layout_height="10dp" android:src="@drawable/ic_me_next" android:scaleType="fitCenter" android:layout_marginEnd="20dp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" />
+
+            <!-- Notifications settings 标题 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Notifications settings"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter_regular" />
+
+            <!-- 第二组：pink+clock 叠加 + Bubble Invitation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:clipChildren="false">
+                <FrameLayout android:layout_width="35dp" android:layout_height="35dp" android:gravity="center" android:clipChildren="false">
+                    <ImageView android:layout_width="35dp" android:layout_height="35dp" android:src="@drawable/ic_me_pink" android:scaleType="fitCenter" />
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_me_clock" android:scaleType="fitCenter" />
+                </FrameLayout>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="Bubble Invitation" android:textColor="@android:color/white" android:textSize="14sp" android:fontFamily="@font/inter_regular" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" android:layout_marginTop="5dp" />
+
+            <!-- General 标题 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="General"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter_regular" />
+
+            <!-- 第三组：3个图标 + 文本 + 箭头 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_me_rate"
+                    android:layout_marginStart="10dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="Rate our App" android:textColor="@android:color/white" android:textSize="14sp" android:fontFamily="@font/inter_regular" />
+                <ImageView android:layout_width="6dp" android:layout_height="10dp" android:src="@drawable/ic_me_next" android:scaleType="fitCenter" android:layout_marginEnd="20dp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="0dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_me_email" android:scaleType="fitCenter" android:layout_marginStart="10dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="Send Feedback" android:textColor="@android:color/white" android:textSize="14sp" android:fontFamily="@font/inter_regular" />
+                <ImageView android:layout_width="6dp" android:layout_height="10dp" android:src="@drawable/ic_me_next" android:scaleType="fitCenter" android:layout_marginEnd="20dp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="0dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_me_privacy" android:scaleType="fitCenter" android:layout_marginStart="10dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="Privacy Policy" android:textColor="@android:color/white" android:textSize="14sp" android:fontFamily="@font/inter_regular" />
+                <ImageView android:layout_width="6dp" android:layout_height="10dp" android:src="@drawable/ic_me_next" android:scaleType="fitCenter" android:layout_marginEnd="20dp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 底部导航栏（锁死不变） -->
+    <LinearLayout
+        android:id="@+id/bottom_nav"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:background="@drawable/bg_bottom_nav_rounded"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:gravity="bottom"
+        android:paddingBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
+            <ImageView android:id="@+id/tab_bubble" android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_tab_bubble" android:scaleType="fitCenter" />
+            <TextView android:layout_width="wrap_content" android:layout_height="20dp" android:text="bubble" android:textSize="14sp" android:textColor="#AEAEB5" android:fontFamily="@font/inter" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
+            <ImageView android:id="@+id/tab_square" android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_tab_square" android:scaleType="fitCenter" />
+            <TextView android:layout_width="wrap_content" android:layout_height="20dp" android:text="square" android:textSize="14sp" android:textColor="#AEAEB5" android:fontFamily="@font/inter" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <ImageView android:id="@+id/tab_add" android:layout_width="20dp" android:layout_height="20dp" android:scaleType="fitCenter" android:src="@drawable/ic_tab_add" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
+            <ImageView android:id="@+id/tab_chat" android:layout_width="36dp" android:layout_height="32dp" android:scaleType="fitCenter" android:src="@drawable/ic_tab_chat" />
+            <TextView android:layout_width="wrap_content" android:layout_height="20dp" android:text="chat" android:textSize="14sp" android:textColor="#AEAEB5" android:fontFamily="@font/inter" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
+            <ImageView android:id="@+id/tab_me" android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_tab_me" android:scaleType="fitCenter" />
+            <TextView android:layout_width="wrap_content" android:layout_height="20dp" android:text="me" android:textSize="14sp" android:textColor="@android:color/black" android:fontFamily="@font/inter" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
