@@ -1,5 +1,6 @@
 package com.bubble.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,17 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bubble.R;
+import com.bubble.utils.SharedPreferencesUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BubbleActivity extends AppCompatActivity {
+public class BubbleActivity extends AppCompatActivity implements BottomNavigationView.BottomNavigationListener {
 
     private FrameLayout bubbleContainer;
+    private BottomNavigationView bottomNavigationView;
     private Random random = new Random();
+    private SharedPreferencesUtil sharedPreferencesUtil;
 
     // Bubble data - text and size
     private static final List<BubbleItem> BUBBLES = new ArrayList<>();
@@ -51,7 +57,21 @@ public class BubbleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubble);
 
+        sharedPreferencesUtil = new SharedPreferencesUtil(this);
+
+        // Check if user is logged in
+        if (!sharedPreferencesUtil.isLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         bubbleContainer = findViewById(R.id.bubble_container);
+
+        // Initialize bottom navigation
+        bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setListener(this);
+        bottomNavigationView.setActiveTab(R.id.tab_bubble);
 
         // Wait for layout to be ready before generating bubbles
         bubbleContainer.post(this::generateRandomBubbles);
@@ -144,6 +164,31 @@ public class BubbleActivity extends AppCompatActivity {
     private int dpToPx(float dp) {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
+    }
+
+    @Override
+    public void onBubbleTabClicked() {
+        // Already on bubble page, do nothing
+    }
+
+    @Override
+    public void onSquareTabClicked() {
+        Toast.makeText(BubbleActivity.this, "广场功能即将推出", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onChatTabClicked() {
+        Toast.makeText(BubbleActivity.this, "聊天功能即将推出", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAddTabClicked() {
+        Toast.makeText(BubbleActivity.this, "发布功能即将推出", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMeTabClicked() {
+        startActivity(new Intent(BubbleActivity.this, MeActivity.class));
     }
 
     // Simple point class

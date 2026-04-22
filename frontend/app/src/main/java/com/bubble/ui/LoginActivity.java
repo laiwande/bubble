@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                         String token = result.getData().get("token");
                         sharedPreferencesUtil.saveToken(token);
                         Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        startActivity(new Intent(LoginActivity.this, BubbleActivity.class));
                         finish();
                     } else {
                         Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();

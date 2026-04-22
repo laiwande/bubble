@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    android:orientation="horizontal"
+    android:gravity="bottom"
+    android:paddingBottom="12dp"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- Bubble Tab -->
+    <LinearLayout
+        android:id="@+id/tab_bubble"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="0dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:id="@+id/iv_tab_bubble"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_tab_bubble"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tv_tab_bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="bubble"
+            android:textSize="10sp"
+            android:textColor="#AEAEB5"
+            android:fontFamily="@font/inter" />
+    </LinearLayout>
+
+    <!-- Square Tab -->
+    <LinearLayout
+        android:id="@+id/tab_square"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="0dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:id="@+id/iv_tab_square"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_tab_square"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tv_tab_square"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="square"
+            android:textSize="10sp"
+            android:textColor="#AEAEB5"
+            android:fontFamily="@font/inter" />
+    </LinearLayout>
+
+    <!-- Add Tab (+ button, centered vertically in nav bar) -->
+    <LinearLayout
+        android:id="@+id/tab_add"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:background="?android:attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:id="@+id/iv_tab_add"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_tab_add" />
+    </LinearLayout>
+
+    <!-- Chat Tab -->
+    <LinearLayout
+        android:id="@+id/tab_chat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="0dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:id="@+id/iv_tab_chat"
+            android:layout_width="36dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_tab_chat"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tv_tab_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="chat"
+            android:textSize="10sp"
+            android:textColor="#AEAEB5"
+            android:fontFamily="@font/inter" />
+    </LinearLayout>
+
+    <!-- Me Tab -->
+    <LinearLayout
+        android:id="@+id/tab_me"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="0dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:id="@+id/iv_tab_me"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_tab_me"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tv_tab_me"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="me"
+            android:textSize="10sp"
+            android:textColor="#AEAEB5"
+            android:fontFamily="@font/inter" />
+    </LinearLayout>
+
+</LinearLayout>
