@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- 背景图 仿login：直接ImageView + fitXY，无圆角 -->
+    <!-- 背景图 -->
     <ImageView
         android:id="@+id/iv_bg"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
         android:src="@drawable/bg_me"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -37,7 +37,7 @@
             android:paddingBottom="54dp"
             android:clipChildren="false">
 
-            <!-- 右上角：点击登录 + User 图标 -->
+            <!-- 右上角：用户名 + User 图标 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +59,6 @@
                     android:layout_marginStart="12dp"
                     android:src="@drawable/ic_me_user"
                     android:scaleType="fitCenter" />
-
             </LinearLayout>
 
             <!-- Account 标题 -->
@@ -74,7 +73,7 @@
                 android:textStyle="bold"
                 android:fontFamily="@font/inter_regular" />
 
-            <!-- 第一组：4个图标 + 文本 + 箭头 -->
+            <!-- 第一组：4个设置项 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -134,7 +133,7 @@
                 android:textStyle="bold"
                 android:fontFamily="@font/inter_regular" />
 
-            <!-- 第二组：pink+clock 叠加 + Bubble Invitation -->
+            <!-- Bubble Invitation -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -161,20 +160,14 @@
                 android:textStyle="bold"
                 android:fontFamily="@font/inter_regular" />
 
-            <!-- 第三组：3个图标 + 文本 + 箭头 -->
+            <!-- 第三组：3个设置项 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_me_rate"
-                    android:layout_marginStart="10dp" />
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:scaleType="fitCenter" android:src="@drawable/ic_me_rate" android:layout_marginStart="10dp" />
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="Rate our App" android:textColor="@android:color/white" android:textSize="14sp" android:fontFamily="@font/inter_regular" />
                 <ImageView android:layout_width="6dp" android:layout_height="10dp" android:src="@drawable/ic_me_next" android:scaleType="fitCenter" android:layout_marginEnd="20dp" />
             </LinearLayout>
@@ -203,19 +196,6 @@
                 <ImageView android:layout_width="6dp" android:layout_height="10dp" android:src="@drawable/ic_me_next" android:scaleType="fitCenter" android:layout_marginEnd="20dp" />
             </LinearLayout>
             <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" />
-
         </LinearLayout>
     </ScrollView>
-
-    <!-- 底部导航栏 -->
-    <com.bubble.ui.BottomNavigationView
-        android:id="@+id/bottom_nav"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_bottom_nav_rounded"
-        android:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

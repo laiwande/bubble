@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Bottom navigation click listeners
         binding.bottomNav.findViewById(R.id.tab_bubble).setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, BubbleActivity.class));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
         });
 
         binding.bottomNav.findViewById(R.id.tab_square).setOnClickListener(v -> {
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                         String token = result.getData().get("token");
                         sharedPreferencesUtil.saveToken(token);
                         Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, BubbleActivity.class));
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                     } else {
                         Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
@@ -145,6 +145,12 @@ public class LoginActivity extends AppCompatActivity {
                     Result<Void> result = response.body();
                     if (result.getCode() == 200) {
                         Toast.makeText(LoginActivity.this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
+                        // 注册成功后切回登录模式
+                        isRegisterMode = true; // toggleMode会取反，所以先设为true
+                        toggleMode();
+                        binding.etEmail.setText("");
+                        binding.etPassword.setText("");
+                        binding.etUsername.setText("");
                     } else {
                         Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                     }

@@ -25,10 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.BubbleActivity"
+            android:name=".ui.MainActivity"
             android:exported="false" />
     </application>
 

@@ -6,7 +6,8 @@
     android:gravity="bottom"
     android:paddingBottom="12dp"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    >
 
     <!-- Bubble Tab -->
     <LinearLayout
