@@ -1,0 +1,48 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="155dp"
+    android:height="20dp"
+    android:viewportWidth="155"
+    android:viewportHeight="20">
+
+  <!-- 左侧选中复选框 - 使用 ic_checkbox 原始 pathData (平移 dx=20, dy=5) -->
+  <path
+      android:strokeWidth="1"
+      android:pathData="M23,5.5L26,5.5A2.5,2.5 0,0 1,28.5 8L28.5,11A2.5,2.5 0,0 1,26 13.5L23,13.5A2.5,2.5 0,0 1,20.5 11L20.5,8A2.5,2.5 0,0 1,23,5.5z"
+      android:fillColor="#ADACA8"
+      android:strokeColor="#4E5156"/>
+  <!-- 勾选标记 -->
+  <path
+      android:strokeWidth="1.5"
+      android:strokeLineCap="round"
+      android:strokeLineJoin="round"
+      android:pathData="M22.5,9.5L25,12L28,7.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#4E5156"/>
+
+  <!-- 左侧粉色圆点 -->
+  <path
+      android:pathData="M42,10m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+      android:fillColor="#ECC4CB"/>
+
+  <!-- 中间灰色滑动轨道 -->
+  <path
+      android:pathData="M52,9L115,9A2,2 0,0 1,117 11L117,11A2,2 0,0 1,115 13L52,13A2,2 0,0 1,50 11L50,11A2,2 0,0 1,52 9z"
+      android:fillColor="#DADADA"/>
+
+  <!-- 滑块按钮 (灰色圆圈) -->
+  <path
+      android:pathData="M70,11m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+      android:fillColor="#ADACA8"/>
+
+  <!-- 右侧蓝色圆点 -->
+  <path
+      android:pathData="M133,10m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+      android:fillColor="#64B5F6"/>
+
+  <!-- 右侧未选中复选框 - 使用 ic_checkbox 原始 pathData (平移 dx=141.5, dy=5) -->
+  <path
+      android:strokeWidth="1"
+      android:pathData="M144.5,5.5L147.5,5.5A2.5,2.5 0,0 1,150 8L150,11A2.5,2.5 0,0 1,147.5 13.5L144.5,13.5A2.5,2.5 0,0 1,142 11L142,8A2.5,2.5 0,0 1,144.5,5.5z"
+      android:fillColor="#EDEDE5"
+      android:strokeColor="#4E5156"/>
+</vector>
