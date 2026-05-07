@@ -31,30 +31,32 @@
         android:scaleType="fitXY"
         android:src="@drawable/bg_add"
         android:layout_marginTop="-70dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_title" />
 
-    <!-- 保存/确认图标 - 左上角 -->
+    <!-- 返回图标 - 左上角 -->
     <ImageView
-        android:id="@+id/iv_save"
-        android:layout_width="46dp"
-        android:layout_height="39dp"
-        android:elevation="4dp"
+        android:id="@+id/iv_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="12dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_add_save"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="84dp"
+        android:src="@drawable/ic_arrow_back"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Bubble Card 顶部卡片 -->
     <ImageView
         android:id="@+id/iv_card_bubble"
-        android:layout_width="305dp"
-        android:layout_height="191dp"
-        android:layout_marginTop="-25dp"
+        android:layout_width="350dp"
+        android:layout_height="265dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="-45dp"
+        android:layout_marginEnd="40dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/card_bubble11"
@@ -69,7 +71,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="-150dp"
         android:paddingHorizontal="32dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_card_bubble">
@@ -79,534 +81,414 @@
             android:id="@+id/note_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginHorizontal="0dp"
+            android:layout_marginTop="35dp"
             android:paddingHorizontal="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.95">
+            app:layout_constraintTop_toBottomOf="@id/iv_card_bubble">
 
-                <!-- 便利签背景图 -->
+            <!-- 便利签背景图 -->
 
-                <!-- Name 字段 -->
-                <ImageView
-                    android:id="@+id/iv_card_note_bg"
-                    android:layout_width="303dp"
-                    android:layout_height="420dp"
-                    android:layout_marginTop="50dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/card_note"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_name_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="55dp"
-                    android:layout_marginTop="78dp"
-                    android:fontFamily="@font/gloriahallelujah"
-                    android:text="Name ："
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                   
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <View
-                    android:id="@+id/spacer_name"
-                    android:layout_width="25dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="85dp"
-                    android:layout_marginTop="78dp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <TextView
-                    android:id="@+id/tv_name_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="110dp"
-                    android:layout_marginTop="78dp"
-                    android:fontFamily="@font/gloriahallelujah"
-                    android:text=""
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <!-- Name 字段下方的横线 -->
-                <ImageView
-                    android:id="@+id/iv_name_underline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
-                    android:layout_marginTop="100dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:scaleX="0.3"
-                    android:scaleY="0.3"
-                    android:src="@drawable/card_line"
-                    android:transformPivotX="0dp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <!-- Limit 图标 -->
-                <ImageView
-                    android:id="@+id/iv_text_limit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="125dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:scaleX="0.3"
-                    android:scaleY="0.3"
-                    android:src="@drawable/ic_text_limit"
-                    android:transformPivotX="0dp"
-                    android:transformPivotY="0dp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <!-- Settings 图标 -->
-                <ImageView
-                    android:id="@+id/iv_text_settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="288dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:scaleX="0.3"
-                    android:scaleY="0.3"
-                    android:src="@drawable/ic_text_settings"
-                    android:transformPivotX="0dp"
-                    android:transformPivotY="0dp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <!-- Age 字段 - 第5行 -->
-                <TextView
-                    android:id="@+id/tv_age_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="70dp"
-                    android:layout_marginTop="130dp"
-                    android:fontFamily="@font/gloriahallelujah"
-                    android:text="Age ："
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <!-- Card Input Bracket -->
-                <ImageView
-                    android:id="@+id/iv_card_input_bracket"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="130dp"
-                    android:layout_marginTop="142dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:scaleX="0.2"
-                    android:scaleY="0.2"
-                    android:src="@drawable/card_input_bracket"
-                    android:transformPivotX="0dp"
-                    android:transformPivotY="0dp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <!-- Gender 字段 - 第7行 -->
-                <TextView
-                    android:id="@+id/tv_gender_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="165dp"
-                    android:fontFamily="@font/gloriahallelujah"
-                    android:text="Gender ："
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <ImageView
-                    android:id="@+id/iv_gender"
-                    android:layout_width="124dp"
-                    android:layout_height="16dp"
-                    android:layout_marginStart="110dp"
-                    android:layout_marginTop="175dp"
-                    android:src="@drawable/ic_gender"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <TextView
-                    android:id="@+id/tv_gender_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="158dp"
-                    android:layout_marginTop="165dp"
-                    android:scaleX="0.4"
-                    android:scaleY="0.4"
-                    android:text="20"
-                    android:textColor="#ADACA8"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <!-- Number 字段 - 第9行 -->
-                <TextView
-                    android:id="@+id/tv_number_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="45dp"
-                    android:layout_marginTop="195dp"
-                    android:fontFamily="@font/gloriahallelujah"
-                    android:text="Number ："
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <ImageView
-                    android:id="@+id/iv_input_limit"
-                    android:layout_width="58dp"
-                    android:layout_height="8dp"
-                    android:layout_marginStart="143dp"
-                    android:layout_marginTop="210dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_input_limit"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <!-- Label allow 字段 - 第11行 -->
-                <TextView
-                    android:id="@+id/tv_label_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginTop="227dp"
-                    android:fontFamily="@font/gloriahallelujah"
-                    android:text="Label ："
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <ImageView
-                    android:id="@+id/iv_bracket_left"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="105dp"
-                    android:layout_marginTop="232dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_bracket_left"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-                <!-- 改为 -->
-<TextView
-    android:id="@+id/tv_allow_label"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="130dp"
-    android:layout_marginTop="228dp"
-    android:fontFamily="@font/gloriahallelujah"
-    android:text="allow ："
-    android:textColor="#333333"
-    android:textSize="14sp"
-    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"   
-    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />    
+            <ImageView
+                android:id="@+id/iv_card_note_bg"
+                android:layout_width="351dp"
+                android:layout_height="457dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="16dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/card_note"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-                <ImageView
-    android:id="@+id/iv_allow_gray"
-    android:layout_width="32dp"
-    android:layout_height="9dp"
-    android:layout_marginStart="180dp"
-    android:layout_marginTop="238dp"
-    android:src="@drawable/ic_allow_gray_combined"
-    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"  
-    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />   
+            <!-- Name 字段 -->
+            <TextView
+                android:id="@+id/tv_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="88dp"
+                android:fontFamily="@font/gloriahallelujah"
+                android:text="Name ："
+                android:textColor="#333333"
+                android:textSize="14sp"
 
-                <ImageView
-                    android:id="@+id/iv_add_input"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="68dp"
-                    android:layout_marginTop="-2dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_add_input"
-                    app:layout_constraintStart_toEndOf="@id/iv_allow_gray"
-                    app:layout_constraintTop_toTopOf="@id/iv_allow_gray" />
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <!-- Ban 字段 - 第12行 -->
-                <TextView
-                    android:id="@+id/tv_ban_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="137dp"
-                    android:layout_marginTop="245dp"
-                    android:fontFamily="@font/gloriahallelujah"
-                    android:text="ban ："
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+            <View
+                android:id="@+id/spacer_name"
+                android:layout_width="25dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="85dp"
+                android:layout_marginTop="78dp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <ImageView
-    android:id="@+id/iv_ban_gray"
-    android:layout_width="32dp"
-    android:layout_height="9dp"
-    android:layout_marginStart="180dp"
-    android:layout_marginTop="255dp"
-    android:elevation="12dp"
-    android:src="@drawable/ic_ban_gray_combined"
-    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"   
-    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />    
+            <TextView
+                android:id="@+id/tv_name_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="110dp"
+                android:layout_marginTop="78dp"
+                android:fontFamily="@font/gloriahallelujah"
+                android:text=""
+                android:textColor="#333333"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <ImageView
-                    android:id="@+id/iv_add_input_ban1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="68dp"
-                    android:layout_marginTop="-2dp"
-                    android:elevation="13dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_add_input"
-                    app:layout_constraintStart_toEndOf="@id/iv_ban_gray"
-                    app:layout_constraintTop_toTopOf="@id/iv_ban_gray" />
+            <!-- Name 字段下方的横线 -->
+            <ImageView
+                android:id="@+id/iv_name_underline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="110dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:scaleX="0.3"
+                android:scaleY="0.3"
+                android:src="@drawable/card_line"
+                android:transformPivotX="0dp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <ImageView
-                    android:id="@+id/iv_add_input_ban2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="105dp"
-                    android:layout_marginTop="0dp"
-                    android:elevation="13dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_add_input"
-                    app:layout_constraintStart_toEndOf="@id/iv_add_input_ban1"
-                    app:layout_constraintTop_toTopOf="@id/iv_add_input_ban1" />
+            <!-- Limit 图标 -->
+            <ImageView
+                android:id="@+id/iv_text_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="135dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:scaleX="0.3"
+                android:scaleY="0.3"
+                android:src="@drawable/ic_text_limit"
+                android:transformPivotX="0dp"
+                android:transformPivotY="0dp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <ImageView
-                    android:id="@+id/iv_checked_ban"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="-4dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_ban_gray_combined"
-                    app:layout_constraintStart_toEndOf="@id/iv_add_input_ban2"
-                    app:layout_constraintTop_toTopOf="@id/iv_add_input_ban2" />
+            <!-- Settings 图标 -->
+            <ImageView
+                android:id="@+id/iv_text_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="310dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:scaleX="0.3"
+                android:scaleY="0.3"
+                android:src="@drawable/ic_text_settings"
+                android:transformPivotX="0dp"
+                android:transformPivotY="0dp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <!-- This Bubble Label 字段 - 第15行 -->
-                <TextView
-                    android:id="@+id/tv_bubble_label_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="295dp"
-                    android:fontFamily="@font/gloriahallelujah"
-                    android:text="This Bubble Lable ："
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+            <!-- Age 字段 - 第5行 -->
+            <TextView
+                android:id="@+id/tv_age_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="83dp"
+                android:layout_marginTop="145dp"
+                android:fontFamily="@font/gloriahallelujah"
+                android:text="Age ："
+                android:textColor="#333333"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <ImageView
-                    android:id="@+id/iv_rounded_gray"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="-6dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_rounded_gray"
-                    app:layout_constraintStart_toEndOf="@id/tv_bubble_label_text"
-                    app:layout_constraintTop_toTopOf="@id/tv_bubble_label_text" />
+            <!-- Card Input Bracket -->
+            <ImageView
+                android:id="@+id/iv_card_input_bracket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="135dp"
+                android:layout_marginTop="155dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:scaleX="0.2"
+                android:scaleY="0.2"
+                android:src="@drawable/card_input_bracket"
+                android:transformPivotX="0dp"
+                android:transformPivotY="0dp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <ImageView
-                    android:id="@+id/iv_add_input_bubble_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="245dp"
-                    android:layout_marginTop="302dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_add_input"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+            <!-- Gender 字段 - 第7行 -->
+            <TextView
+                android:id="@+id/tv_gender_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="180dp"
+                android:fontFamily="@font/gloriahallelujah"
+                android:text="Gender ："
+                android:textColor="#333333"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <!-- This Bubble Wall 字段 - 第17行 -->
-                <TextView
-                    android:id="@+id/tv_bubble_wall_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="325dp"
-                    android:fontFamily="@font/gloriahallelujah"
-                    android:text="This Bubble Wall"
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+            <ImageView
+                android:id="@+id/iv_gender"
+                android:layout_width="124dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="115dp"
+                android:layout_marginTop="188dp"
+                android:src="@drawable/ic_gender"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <!-- Card Note Input -->
-                <ImageView
-                    android:id="@+id/iv_card_note_input"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="345dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:src="@drawable/card_note_input"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+            <TextView
+                android:id="@+id/tv_gender_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="162dp"
+                android:layout_marginTop="179dp"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
+                android:text="20"
+                android:textColor="#ADACA8"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-                <!-- ic_wall_input -->
-                <ImageView
-                    android:id="@+id/iv_ic_wall_input"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="575dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:scaleX="0.05"
-                    android:scaleY="0.05"
-                    android:src="@drawable/ic_wall_input"
-                    app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                    app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+            <!-- Number 字段 - 第9行 -->
+            <TextView
+                android:id="@+id/tv_number_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="215dp"
+                android:fontFamily="@font/gloriahallelujah"
+                android:text="Number ："
+                android:textColor="#333333"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/iv_input_limit"
+                android:layout_width="58dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="228dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_input_limit"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
+            <!-- Label allow 字段 - 第11行 -->
+            <TextView
+                android:id="@+id/tv_label_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="75dp"
+                android:layout_marginTop="250dp"
+                android:fontFamily="@font/gloriahallelujah"
+                android:text="Label ："
+                android:textColor="#333333"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <ImageView
+                android:id="@+id/iv_bracket_left"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="125dp"
+                android:layout_marginTop="255dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_bracket_left"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <!-- 改为 -->
+            <TextView
+                android:id="@+id/tv_allow_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="248dp"
+                android:fontFamily="@font/gloriahallelujah"
+                android:text="allow ："
+                android:textColor="#333333"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+
+            <ImageView
+                android:id="@+id/iv_allow_gray"
+                android:layout_width="32dp"
+                android:layout_height="9dp"
+                android:layout_marginStart="205dp"
+                android:layout_marginTop="260dp"
+                android:src="@drawable/ic_allow_gray_combined"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <ImageView
+                android:id="@+id/iv_add_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="78dp"
+                android:layout_marginTop="-2dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_add_input"
+                app:layout_constraintStart_toEndOf="@id/iv_allow_gray"
+                app:layout_constraintTop_toTopOf="@id/iv_allow_gray" />
+
+            <!-- Ban 字段 - 第12行 -->
+            <TextView
+                android:id="@+id/tv_ban_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="157dp"
+                android:layout_marginTop="268dp"
+                android:fontFamily="@font/gloriahallelujah"
+                android:text="ban ："
+                android:textColor="#333333"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <ImageView
+                android:id="@+id/iv_ban_gray"
+                android:layout_width="32dp"
+                android:layout_height="9dp"
+                android:layout_marginStart="205dp"
+                android:layout_marginTop="280dp"
+                android:elevation="12dp"
+                android:src="@drawable/ic_ban_gray_combined"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <ImageView
+                android:id="@+id/iv_add_input_ban1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="78dp"
+                android:layout_marginTop="-2dp"
+                android:elevation="13dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_add_input"
+                app:layout_constraintStart_toEndOf="@id/iv_ban_gray"
+                app:layout_constraintTop_toTopOf="@id/iv_ban_gray" />
+
+
+            <!-- This Bubble Label 字段 - 第15行 -->
+            <TextView
+                android:id="@+id/tv_bubble_label_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="323dp"
+                android:fontFamily="@font/gloriahallelujah"
+                android:text="This Bubble Lable ："
+                android:textColor="#333333"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <ImageView
+                android:id="@+id/iv_rounded_gray"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="-6dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_rounded_gray"
+                app:layout_constraintStart_toEndOf="@id/tv_bubble_label_text"
+                app:layout_constraintTop_toTopOf="@id/tv_bubble_label_text" />
+
+            <ImageView
+                android:id="@+id/iv_add_input_bubble_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="245dp"
+                android:layout_marginTop="330dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_add_input"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <!-- This Bubble Wall 字段 - 第17行 -->
+            <TextView
+                android:id="@+id/tv_bubble_wall_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="355dp"
+                android:fontFamily="@font/gloriahallelujah"
+                android:text="This Bubble Wall"
+                android:textColor="#333333"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <!-- Card Note Input -->
+            <ImageView
+                android:id="@+id/iv_card_note_input"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="375dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:src="@drawable/card_note_input"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <!-- ic_wall_input -->
+            <ImageView
+                android:id="@+id/iv_ic_wall_input"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-70dp"
+                android:layout_marginTop="380dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:scaleX="0.05"
+                android:scaleY="0.05"
+                android:src="@drawable/ic_wall_input"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Create 按钮 -->
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="-90dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="17dp"
+            android:backgroundTint="#ECC4CB"
+            android:fontFamily="@font/archivo_black"
+            android:text="Create"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:cornerRadius="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/note_container" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 底部导航栏 -->
-    <LinearLayout
-        android:id="@+id/bottom_nav"
-        android:layout_width="0dp"
-        android:layout_height="68dp"
-        android:background="@drawable/bg_bottom_nav_rounded"
-        android:elevation="8dp"
-        android:orientation="horizontal"
-        android:gravity="bottom"
-        android:paddingBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <ImageView
-                android:id="@+id/tab_bubble"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/ic_tab_bubble"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="bubble"
-                android:textSize="10sp"
-                android:textColor="#AEAEB5"
-                android:fontFamily="@font/inter" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <ImageView
-                android:id="@+id/tab_square"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/ic_tab_square"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="square"
-                android:textSize="10sp"
-                android:textColor="#AEAEB5"
-                android:fontFamily="@font/inter" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/tab_add"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_tab_add_gray" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <ImageView
-                android:id="@+id/tab_chat"
-                android:layout_width="36dp"
-                android:layout_height="32dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_tab_chat" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="chat"
-                android:textSize="10sp"
-                android:textColor="#AEAEB5"
-                android:fontFamily="@font/inter" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <ImageView
-                android:id="@+id/tab_me"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/ic_tab_me"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="me"
-                android:textSize="10sp"
-                android:textColor="#AEAEB5"
-                android:fontFamily="@font/inter" />
-        </LinearLayout>
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,8 +25,7 @@ public class BubbleFragment extends Fragment {
 
     static {
         BUBBLES.add(new BubbleItem("临港大学生", 1.3f));
-
-
+        BUBBLES.add(new BubbleItem("蛋蛋后杰迷", 1.2f));
         BUBBLES.add(new BubbleItem("张国荣影迷", 1.5f));
         BUBBLES.add(new BubbleItem("明日方舟", 1.1f));
         BUBBLES.add(new BubbleItem("OOR", 0.8f));
