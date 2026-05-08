@@ -16,9 +16,18 @@ import java.util.List;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     private List<CardItem> cardList;
+    private OnCardClickListener onCardClickListener;
+
+    public interface OnCardClickListener {
+        void onCardClick(CardItem card, int position);
+    }
 
     public CardAdapter(List<CardItem> cardList) {
         this.cardList = cardList;
+    }
+
+    public void setOnCardClickListener(OnCardClickListener listener) {
+        this.onCardClickListener = listener;
     }
 
     @NonNull
@@ -29,11 +38,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return new CardViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        CardItem card = cardList.get(position);
-        holder.bind(card);
-    }
+        @Override
+        public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
+            CardItem card = cardList.get(position);
+            holder.bind(card);
+
+            // 设置卡片点击事件
+            holder.itemView.setOnClickListener(v -> {
+                if (onCardClickListener != null) {
+                    onCardClickListener.onCardClick(card, position);
+                }
+            });
+        }
 
     @Override
     public int getItemCount() {
