@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 底层: 灰色圆角背景 -->
+    <item android:drawable="@drawable/ic_rounded_gray"/>
+    <!-- 上层: 白色叉图标 (向右+2dp, 向下+2dp, 尺寸 12dp x 8dp) -->
+    <item 
+        android:left="2dp"
+        android:top="2dp"
+        android:width="12dp"
+        android:height="8dp"
+        android:drawable="@drawable/ic_ban"/>
+</layer-list>
