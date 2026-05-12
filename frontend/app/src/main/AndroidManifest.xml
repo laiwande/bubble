@@ -28,7 +28,10 @@
             android:name=".ui.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.CreateActivity"
+            android:name=".ui.CreatePostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.PostDetailActivity"
             android:exported="false" />
     </application>
 

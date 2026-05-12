@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginHorizontal="25dp"
+    android:layout_marginTop="12dp">
+
+    <ImageView
+        android:id="@+id/bg_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_square_whitecard" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 头像 -->
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_circle"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_me_user"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- whitetab - 标题背景 -->
+        <FrameLayout
+            android:id="@+id/whitetab"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/bg_whitetab"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_whitetab_shadow" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/inter_bold"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="12dp"
+                android:text="Title"
+                android:textColor="#393939"
+                android:textSize="14sp" />
+        </FrameLayout>
+
+        <!-- 灰色小字副标题 -->
+        <TextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter"
+            android:maxLines="1"
+            android:text="Subtitle"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/whitetab"
+            app:layout_constraintTop_toBottomOf="@id/whitetab" />
+
+        <!-- 标签容器 -->
+        <LinearLayout
+            android:id="@+id/tags_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@id/avatars_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avatar">
+
+            <!-- 标签会动态添加到这里 -->
+        </LinearLayout>
+
+        <!-- 右侧头像容器 -->
+        <LinearLayout
+            android:id="@+id/avatars_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@id/one_icon"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- 头像会动态添加到这里 -->
+        </LinearLayout>
+
+        <!-- One图标 -->
+        <ImageView
+            android:id="@+id/one_icon"
+            android:layout_width="24dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_square_one"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
