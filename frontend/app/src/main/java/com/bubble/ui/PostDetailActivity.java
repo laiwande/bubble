@@ -1,24 +1,20 @@
 package com.bubble.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import com.bubble.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 
-public class CardDetailFragment extends Fragment {
+public class PostDetailActivity extends AppCompatActivity {
 
     // 顶部导航
     private ImageView ivBack;
@@ -51,73 +47,66 @@ public class CardDetailFragment extends Fragment {
     private ArrayList<String> wishTags = new ArrayList<>();
     private ArrayList<String> banTags = new ArrayList<>();
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_square_find_card_detail, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_post_detail);
 
         // 获取传递的数据
-        Bundle args = getArguments();
-        if (args != null) {
-            title = args.getString("title", "");
-            year = args.getString("year", "");
-            month = args.getString("month", "");
-            day = args.getString("day", "");
-            location = args.getString("location", "");
-            partnerNumber = args.getString("partnerNumber", "1");
-            description = args.getString("description", "");
-            wishTags = args.getStringArrayList("wishTags");
-            banTags = args.getStringArrayList("banTags");
+        Intent intent = getIntent();
+        if (intent != null) {
+            title = intent.getStringExtra("title");
+            year = intent.getStringExtra("year");
+            month = intent.getStringExtra("month");
+            day = intent.getStringExtra("day");
+            location = intent.getStringExtra("location");
+            partnerNumber = intent.getStringExtra("partnerNumber");
+            description = intent.getStringExtra("description");
+            wishTags = intent.getStringArrayListExtra("wishTags");
+            banTags = intent.getStringArrayListExtra("banTags");
             if (wishTags == null) wishTags = new ArrayList<>();
             if (banTags == null) banTags = new ArrayList<>();
         }
 
-        initViews(view);
+        initViews();
         initListeners();
         displayData();
-
-        return view;
     }
 
-    private void initViews(View view) {
+    private void initViews() {
         // 顶部导航
-        ivBack = view.findViewById(R.id.iv_back);
-        ivAvatar = view.findViewById(R.id.iv_avatar_top);
-        ivAdd = view.findViewById(R.id.iv_add);
-        navFindPartner = view.findViewById(R.id.nav_find_partner);
-        navBubble = view.findViewById(R.id.nav_bubble);
-        navBroadcast = view.findViewById(R.id.nav_broadcast);
+        ivBack = findViewById(R.id.iv_back);
+        ivAvatar = findViewById(R.id.iv_avatar_top);
+        ivAdd = findViewById(R.id.iv_add);
+        navFindPartner = findViewById(R.id.nav_find_partner);
+        navBubble = findViewById(R.id.nav_bubble);
+        navBroadcast = findViewById(R.id.nav_broadcast);
 
         // 卡片内容
-        tvTopicName = view.findViewById(R.id.tv_topic_name);
-        tvAddress = view.findViewById(R.id.tv_address);
-        tvYear = view.findViewById(R.id.tv_year);
-        tvMonth = view.findViewById(R.id.tv_month);
-        tvDay = view.findViewById(R.id.tv_day);
-        tvPartnerValue = view.findViewById(R.id.tv_partner_value);
-        tvDescription = view.findViewById(R.id.tv_description);
-        chipGroupWish = view.findViewById(R.id.chip_group_wish);
-        chipGroupBan = view.findViewById(R.id.chip_group_ban);
-        flTalk = view.findViewById(R.id.fl_talk);
+        tvTopicName = findViewById(R.id.tv_topic_name);
+        tvAddress = findViewById(R.id.tv_address);
+        tvYear = findViewById(R.id.tv_year);
+        tvMonth = findViewById(R.id.tv_month);
+        tvDay = findViewById(R.id.tv_day);
+        tvPartnerValue = findViewById(R.id.tv_partner_value);
+        tvDescription = findViewById(R.id.tv_description);
+        chipGroupWish = findViewById(R.id.chip_group_wish);
+        chipGroupBan = findViewById(R.id.chip_group_ban);
+        flTalk = findViewById(R.id.fl_talk);
     }
 
     private void initListeners() {
         // 返回按钮
-        ivBack.setOnClickListener(v -> goBackToSquare());
+        ivBack.setOnClickListener(v -> finish());
 
         // 头像点击
         ivAvatar.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "个人中心", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "个人中心", Toast.LENGTH_SHORT).show();
         });
 
         // 加号按钮 - 跳转到创建页
         ivAdd.setOnClickListener(v -> {
-            SquareCreateFragment createFragment = new SquareCreateFragment();
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, createFragment)
-                    .addToBackStack(null)
-                    .commit();
+            startActivity(new Intent(this, CreatePostActivity.class));
         });
 
         // 导航标签切换
@@ -127,7 +116,7 @@ public class CardDetailFragment extends Fragment {
 
         // Talk 按钮
         flTalk.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "发起聊天", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "发起聊天", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -155,11 +144,11 @@ public class CardDetailFragment extends Fragment {
     }
 
     private void addChip(ChipGroup chipGroup, String text, boolean isWish) {
-        Chip chip = new Chip(getContext());
+        Chip chip = new Chip(this);
         chip.setText(text);
         chip.setTextSize(11);
         chip.setTextColor(Color.WHITE);
-        chip.setChipBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.black));
+        chip.setChipBackgroundColor(ContextCompat.getColorStateList(this, R.color.black));
         // Wish 用对勾，Ban 用叉号
         chip.setChipIconResource(isWish ? R.drawable.ic_check_white : R.drawable.ic_square_wrong);
         chip.setChipIconTint(null);
@@ -188,9 +177,9 @@ public class CardDetailFragment extends Fragment {
 
         if (tabIndex == 0) {
             // 找搭子 - 返回列表页
-            goBackToSquare();
+            finish();
         } else {
-            Toast.makeText(getContext(), "切换到" + (tabIndex == 1 ? "泡泡墙" : "广播"), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "切换到" + (tabIndex == 1 ? "泡泡墙" : "广播"), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -199,10 +188,5 @@ public class CardDetailFragment extends Fragment {
         if (textView != null) {
             textView.setTextColor(isSelected ? 0xFFFFFFFF : 0xFF000000);
         }
-    }
-
-    private void goBackToSquare() {
-        // 返回 Square 主界面（找搭子列表页）
-        requireActivity().getSupportFragmentManager().popBackStack();
     }
 }

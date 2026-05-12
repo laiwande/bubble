@@ -1,5 +1,6 @@
 package com.bubble.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,38 +54,26 @@ public class SquareFindFragment extends Fragment {
         cardAdapter = new CardAdapter(cardList);
         recyclerCards.setAdapter(cardAdapter);
 
-        // 卡片点击事件 - 跳转到详情页
+        // 卡片点击事件 - 跳转到详情页 (Activity)
         cardAdapter.setOnCardClickListener((card, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("title", card.getTitle());
-            bundle.putString("year", card.getYear());
-            bundle.putString("month", card.getMonth());
-            bundle.putString("day", card.getDay());
-            bundle.putString("location", card.getLocation());
-            bundle.putString("partnerNumber", card.getPartnerNumber());
-            bundle.putString("description", card.getDescription());
-            bundle.putStringArrayList("wishTags", new ArrayList<>(card.getWishTags()));
-            bundle.putStringArrayList("banTags", new ArrayList<>(card.getBanTags()));
-
-            CardDetailFragment detailFragment = new CardDetailFragment();
-            detailFragment.setArguments(bundle);
-
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, detailFragment)
-                    .addToBackStack(null)
-                    .commit();
+            Intent intent = new Intent(requireContext(), PostDetailActivity.class);
+            intent.putExtra("title", card.getTitle());
+            intent.putExtra("year", card.getYear());
+            intent.putExtra("month", card.getMonth());
+            intent.putExtra("day", card.getDay());
+            intent.putExtra("location", card.getLocation());
+            intent.putExtra("partnerNumber", card.getPartnerNumber());
+            intent.putExtra("description", card.getDescription());
+            intent.putStringArrayListExtra("wishTags", new ArrayList<>(card.getWishTags()));
+            intent.putStringArrayListExtra("banTags", new ArrayList<>(card.getBanTags()));
+            startActivity(intent);
         });
     }
 
     private void initListeners() {
-        // 加号按钮 - 跳转到创建页
+        // 加号按钮 - 跳转到创建页 (Activity)
         ivAdd.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new SquareCreateFragment())
-                    .addToBackStack(null)
-                    .commit();
+            startActivity(new Intent(requireContext(), CreatePostActivity.class));
         });
 
         // 导航标签切换

@@ -523,12 +523,12 @@
                 app:layout_constraintTop_toTopOf="@id/fl_ban_add"
                 app:layout_constraintBottom_toBottomOf="@id/fl_ban_add" />
 
-            <!-- Description 标签 - 在 Ban 标签组下方 -->
+            <!-- Description 标签 - 固定在Ban标签下方，不随标签组高度变化 -->
             <TextView
                 android:id="@+id/tv_description_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/inter"
                 android:text="Description:"
@@ -536,14 +536,14 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/chip_group_ban" />
+                app:layout_constraintTop_toBottomOf="@id/tv_ban_label" />
 
             <!-- Description 大卡片 - 固定位置和高度 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_description"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="40dp"
@@ -578,13 +578,13 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.995" />
 
-            <!-- 底部百分比参考线 - 距离下边缘1dp (约0.5%) -->
+            <!-- 底部百分比参考线 - 距离下边缘约2% -->
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.995" />
+                app:layout_constraintGuide_percent="0.98" />
 
             <!-- 右下角棕色勾号按钮 - 百分比定位 -->
             <ImageView

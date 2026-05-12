@@ -1,34 +1,27 @@
 package com.bubble.ui;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import com.bubble.R;
-import com.bubble.ui.model.CardItem;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-public class SquareCreateFragment extends Fragment {
+public class CreatePostActivity extends AppCompatActivity {
 
     // 顶部标题栏
     private ImageView ivMenu;
@@ -69,68 +62,64 @@ public class SquareCreateFragment extends Fragment {
     private List<String> wishTags = new ArrayList<>();
     private List<String> banTags = new ArrayList<>();
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_square_find_create, container, false);
-        initViews(view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_post);
+        initViews();
         initListeners();
-        return view;
     }
 
-    private void initViews(View view) {
+    private void initViews() {
         // 顶部标题栏
-        ivMenu = view.findViewById(R.id.iv_menu);
-        ivAvatarTop = view.findViewById(R.id.iv_avatar_top);
-        ivAdd = view.findViewById(R.id.iv_add);
+        ivMenu = findViewById(R.id.iv_menu);
+        ivAvatarTop = findViewById(R.id.iv_avatar_top);
+        ivAdd = findViewById(R.id.iv_add);
 
         // 顶部导航
-        navFindPartner = view.findViewById(R.id.nav_find_partner);
-        navBubble = view.findViewById(R.id.nav_bubble);
-        navBroadcast = view.findViewById(R.id.nav_broadcast);
+        navFindPartner = findViewById(R.id.nav_find_partner);
+        navBubble = findViewById(R.id.nav_bubble);
+        navBroadcast = findViewById(R.id.nav_broadcast);
 
         // 卡片内容
-        cardTopicName = view.findViewById(R.id.card_topic_name);
-        cardAddress = view.findViewById(R.id.card_address);
-        cardYear = view.findViewById(R.id.card_year);
-        cardMonth = view.findViewById(R.id.card_month);
-        cardDay = view.findViewById(R.id.card_day);
-        cardPartnerNumber = view.findViewById(R.id.card_partner_number);
-        cardDescription = view.findViewById(R.id.card_description);
-        etTopicName = view.findViewById(R.id.et_topic_name);
-        etAddress = view.findViewById(R.id.et_address);
-        etYear = view.findViewById(R.id.et_year);
-        etMonth = view.findViewById(R.id.et_month);
-        etDay = view.findViewById(R.id.et_day);
-        etPartnerNumber = view.findViewById(R.id.et_partner_number);
-        etDescription = view.findViewById(R.id.et_description);
+        cardTopicName = findViewById(R.id.card_topic_name);
+        cardAddress = findViewById(R.id.card_address);
+        cardYear = findViewById(R.id.card_year);
+        cardMonth = findViewById(R.id.card_month);
+        cardDay = findViewById(R.id.card_day);
+        cardPartnerNumber = findViewById(R.id.card_partner_number);
+        cardDescription = findViewById(R.id.card_description);
+        etTopicName = findViewById(R.id.et_topic_name);
+        etAddress = findViewById(R.id.et_address);
+        etYear = findViewById(R.id.et_year);
+        etMonth = findViewById(R.id.et_month);
+        etDay = findViewById(R.id.et_day);
+        etPartnerNumber = findViewById(R.id.et_partner_number);
+        etDescription = findViewById(R.id.et_description);
 
         // Wish/Ban
-        flWishAdd = view.findViewById(R.id.fl_wish_add);
-        flBanAdd = view.findViewById(R.id.fl_ban_add);
-        chipGroupWish = view.findViewById(R.id.chip_group_wish);
-        chipGroupBan = view.findViewById(R.id.chip_group_ban);
+        flWishAdd = findViewById(R.id.fl_wish_add);
+        flBanAdd = findViewById(R.id.fl_ban_add);
+        chipGroupWish = findViewById(R.id.chip_group_wish);
+        chipGroupBan = findViewById(R.id.chip_group_ban);
 
         // 提交按钮
-        ivSubmit = view.findViewById(R.id.iv_submit);
+        ivSubmit = findViewById(R.id.iv_submit);
     }
 
     private void initListeners() {
         // 返回按钮
-        ivMenu.setOnClickListener(v -> {
-            // 返回到 SquareFindFragment
-            requireActivity().getSupportFragmentManager().popBackStack();
-        });
+        ivMenu.setOnClickListener(v -> finish());
 
         // 头像点击
         ivAvatarTop.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "个人中心", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "个人中心", Toast.LENGTH_SHORT).show();
         });
 
         // 加号按钮 - 创建新帖子
         ivAdd.setOnClickListener(v -> {
             clearForm();
-            Toast.makeText(getContext(), "新建", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "新建", Toast.LENGTH_SHORT).show();
         });
 
         // 导航标签切换
@@ -169,7 +158,7 @@ public class SquareCreateFragment extends Fragment {
         updateNavTextColor(navBroadcast, tabIndex == 2);
 
         if (tabIndex != 0) {
-            Toast.makeText(getContext(), "切换到" + (tabIndex == 1 ? "泡泡墙" : "广播"), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "切换到" + (tabIndex == 1 ? "泡泡墙" : "广播"), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -183,18 +172,18 @@ public class SquareCreateFragment extends Fragment {
     private void showAddTagDialog(boolean isWish) {
         // 检查是否已满3个
         if (isWish && wishTags.size() >= 3) {
-            Toast.makeText(getContext(), "Wish 标签最多3个", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Wish 标签最多3个", Toast.LENGTH_SHORT).show();
             return;
         }
         if (!isWish && banTags.size() >= 3) {
-            Toast.makeText(getContext(), "Ban 标签最多3个", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Ban 标签最多3个", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(isWish ? "添加 Wish 标签" : "添加 Ban 标签");
 
-        final EditText input = new EditText(requireContext());
+        final EditText input = new EditText(this);
         input.setHint("请输入标签");
         builder.setView(input);
 
@@ -203,21 +192,21 @@ public class SquareCreateFragment extends Fragment {
             if (!tag.isEmpty()) {
                 if (isWish) {
                     if (wishTags.size() >= 3) {
-                        Toast.makeText(getContext(), "Wish 标签最多3个", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Wish 标签最多3个", Toast.LENGTH_SHORT).show();
                     } else if (!wishTags.contains(tag)) {
                         wishTags.add(tag);
                         addChipToGroup(chipGroupWish, tag, true);
                     } else {
-                        Toast.makeText(getContext(), "标签已存在", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "标签已存在", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     if (banTags.size() >= 3) {
-                        Toast.makeText(getContext(), "Ban 标签最多3个", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Ban 标签最多3个", Toast.LENGTH_SHORT).show();
                     } else if (!banTags.contains(tag)) {
                         banTags.add(tag);
                         addChipToGroup(chipGroupBan, tag, false);
                     } else {
-                        Toast.makeText(getContext(), "标签已存在", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "标签已存在", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -229,11 +218,11 @@ public class SquareCreateFragment extends Fragment {
     }
 
     private void addChipToGroup(ChipGroup chipGroup, String text, boolean isWish) {
-        Chip chip = new Chip(getContext());
+        Chip chip = new Chip(this);
         chip.setText(text);
         chip.setTextSize(11);
         chip.setTextColor(Color.WHITE);
-        chip.setChipBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.black));
+        chip.setChipBackgroundColor(ContextCompat.getColorStateList(this, R.color.black));
         // Wish 用对勾，Ban 用叉号
         chip.setChipIconResource(isWish ? R.drawable.ic_check_white : R.drawable.ic_square_wrong);
         chip.setChipIconTint(null);
@@ -281,15 +270,15 @@ public class SquareCreateFragment extends Fragment {
         // 检查必填项
         if (topicName.isEmpty() || address.isEmpty() || year.isEmpty() 
                 || month.isEmpty() || day.isEmpty() || description.isEmpty()) {
-            Toast.makeText(getContext(), "编辑不完整", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "编辑不完整", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // 显示发布成功提示
-        Toast.makeText(getContext(), "发布成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "发布成功", Toast.LENGTH_SHORT).show();
 
-        // 返回到 SquareFindFragment（找搭子列表页）
-        requireActivity().getSupportFragmentManager().popBackStack();
+        // 关闭Activity
+        finish();
     }
 
     private void clearForm() {
@@ -317,7 +306,7 @@ public class SquareCreateFragment extends Fragment {
     }
 
     private void showKeyboard(EditText editText) {
-        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
         }

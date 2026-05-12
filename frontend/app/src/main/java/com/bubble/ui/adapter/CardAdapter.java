@@ -135,7 +135,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                     dpToPx(context, tag.isCheck() ? 18 : 16),
                     dpToPx(context, tag.isCheck() ? 18 : 16)
             ));
-            icon.setImageResource(tag.isCheck() ? R.drawable.ic_square_right : R.drawable.ic_cross_white);
+            icon.setImageResource(tag.isCheck() ? R.drawable.ic_square_right : R.drawable.ic_square_wrong);
             tagLayout.addView(icon);
 
             // 文字
