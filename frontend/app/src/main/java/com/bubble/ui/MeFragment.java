@@ -44,6 +44,7 @@ public class MeFragment extends Fragment {
         apiService.getUserInfo("Bearer " + token).enqueue(new Callback<com.bubble.model.Result<User>>() {
             @Override
             public void onResponse(Call<com.bubble.model.Result<User>> call, Response<com.bubble.model.Result<User>> response) {
+                if (!isAdded() || tvHello == null) return;
                 if (response.isSuccessful() && response.body() != null) {
                     com.bubble.model.Result<User> result = response.body();
                     if (result.getCode() == 200) {
@@ -60,6 +61,7 @@ public class MeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<com.bubble.model.Result<User>> call, Throwable t) {
+                if (!isAdded() || tvHello == null) return;
                 tvHello.setText("Connection Failed");
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }

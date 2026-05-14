@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 黑色背景 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#2C2C2C" />
+            <corners android:radius="9.5dp" />
+        </shape>
+    </item>
+    <!-- 左侧勾选标记位置留白，通过padding在代码中处理 -->
+</layer-list>
