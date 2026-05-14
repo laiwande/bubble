@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@android:color/transparent"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <!-- 气泡图标 -->
+    <ImageView
+        android:id="@+id/iv_bubble_icon"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:src="@drawable/ic_bubble_container"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 标题 -->
+    <TextView
+        android:id="@+id/tv_bubble_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Bubble 1"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter"
+        app:layout_constraintBottom_toTopOf="@+id/tv_bubble_id"
+        app:layout_constraintStart_toEndOf="@id/iv_bubble_icon"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <!-- ID -->
+    <TextView
+        android:id="@+id/tv_bubble_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="1239847962314"
+        android:textColor="#828282"
+        android:textSize="14sp"
+        android:fontFamily="@font/inter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_bubble_icon"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bubble_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
