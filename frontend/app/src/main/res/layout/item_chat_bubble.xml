@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/transparent">
+
+    <!-- Bubble 主体 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="53dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="10dp">
+
+        <!-- 气泡图标容器 -->
+        <FrameLayout
+            android:id="@+id/bubble_container"
+            android:layout_width="53dp"
+            android:layout_height="49dp">
+
+            <ImageView
+                android:id="@+id/iv_bubble"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_bubble_container"
+                android:scaleType="fitXY" />
+
+        </FrameLayout>
+
+        <!-- 文字信息 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="7dp">
+
+            <TextView
+                android:id="@+id/tv_bubble_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bubble"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-black"
+                tools:text="Bubble 1" />
+
+            <TextView
+                android:id="@+id/tv_bubble_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1239847962314"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:fontFamily="@font/inter"
+                android:layout_marginTop="2dp"
+                tools:text="1239847962314" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 分隔线 -->
+    <ImageView
+        android:id="@+id/iv_line"
+        android:layout_width="300dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="55dp"
+        android:src="@drawable/ic_chat_line"
+        android:scaleType="fitXY" />
+
+</LinearLayout>
