@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     // 5个Fragment实例
     private BubbleFragment bubbleFragment;
-    private SquareFindFragment squareFindFragment;
+    private SquareFragment squareFragment;
     private AddFragment addFragment;
     private ChatFragment chatFragment;
     private MeFragment meFragment;
@@ -42,13 +42,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         // 初始化Fragment
         bubbleFragment = new BubbleFragment();
-        squareFindFragment = new SquareFindFragment();
+        squareFragment = new SquareFragment();
         addFragment = new AddFragment();
         chatFragment = new ChatFragment();
         meFragment = new MeFragment();
 
         fragmentMap.put(R.id.tab_bubble, bubbleFragment);
-        fragmentMap.put(R.id.tab_square, squareFindFragment);
+        fragmentMap.put(R.id.tab_square, squareFragment);
         fragmentMap.put(R.id.tab_add, addFragment);
         fragmentMap.put(R.id.tab_chat, chatFragment);
         fragmentMap.put(R.id.tab_me, meFragment);
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private void switchFragment(int tabId) {
         Fragment target = fragmentMap.get(tabId);
-        if (target == null || target == currentFragment) return;
+        if (target == null) return;
 
         var transaction = getSupportFragmentManager()
                 .beginTransaction()
@@ -72,24 +72,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // 首次切换：需要先将所有 Fragment add 到容器
         if (currentFragment == null) {
             transaction.add(R.id.fragment_container, bubbleFragment);
-            transaction.add(R.id.fragment_container, squareFindFragment);
+            transaction.add(R.id.fragment_container, squareFragment);
             transaction.add(R.id.fragment_container, addFragment);
             transaction.add(R.id.fragment_container, chatFragment);
             transaction.add(R.id.fragment_container, meFragment);
 
             // 默认全部隐藏
             transaction.hide(bubbleFragment);
-            transaction.hide(squareFindFragment);
+            transaction.hide(squareFragment);
             transaction.hide(addFragment);
             transaction.hide(chatFragment);
             transaction.hide(meFragment);
-        } else {
-            // 后续切换：只隐藏当前
-            transaction.hide(currentFragment);
+            
+            transaction.show(target).commit();
+            currentFragment = target;
+        } else if (target != currentFragment) {
+            // 后续切换：只隐藏当前，显示目标
+            // 如果从Square切换到其他，重置Square到找搭子页面
+            if (currentFragment == squareFragment && tabId != R.id.tab_square) {
+                squareFragment.resetToFind();
+            }
+            transaction.hide(currentFragment).show(target).commit();
+            currentFragment = target;
         }
 
-        transaction.show(target).commit();
-        currentFragment = target;
         bottomNavigationView.setActiveTab(tabId);
     }
 

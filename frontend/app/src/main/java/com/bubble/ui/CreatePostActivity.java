@@ -122,10 +122,10 @@ public class CreatePostActivity extends AppCompatActivity {
             Toast.makeText(this, "新建", Toast.LENGTH_SHORT).show();
         });
 
-        // 导航标签切换
-        navFindPartner.setOnClickListener(v -> switchTab(0));
-        navBubble.setOnClickListener(v -> switchTab(1));
-        navBroadcast.setOnClickListener(v -> switchTab(2));
+        // 导航标签切换 - 在创建帖子界面禁用
+        // navFindPartner.setOnClickListener(v -> switchTab(0));
+        // navBubble.setOnClickListener(v -> switchTab(1));
+        // navBroadcast.setOnClickListener(v -> switchTab(2));
 
         // Wish 添加标签
         flWishAdd.setOnClickListener(v -> showAddTagDialog(true));
