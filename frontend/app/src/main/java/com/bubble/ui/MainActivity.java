@@ -88,10 +88,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             currentFragment = target;
         } else if (target != currentFragment) {
             // 后续切换：只隐藏当前，显示目标
-            // 如果从Square切换到其他，重置Square到找搭子页面
-            if (currentFragment == squareFragment && tabId != R.id.tab_square) {
-                squareFragment.resetToFind();
-            }
             transaction.hide(currentFragment).show(target).commit();
             currentFragment = target;
         }

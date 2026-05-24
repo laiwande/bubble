@@ -25,6 +25,9 @@ public class SquareFragment extends Fragment {
     private BroadcastFragment broadcastFragment;
     
     private Fragment currentChildFragment;
+    
+    // 记录当前选中的Tab索引（0=找搭子, 1=泡泡墙, 2=广播）
+    private int lastSelectedTab = 0;
 
     @Nullable
     @Override
@@ -103,6 +106,7 @@ public class SquareFragment extends Fragment {
                 .commit();
         
         currentChildFragment = target;
+        lastSelectedTab = tabIndex;  // 记录当前Tab索引
         updateNavStyle(tabIndex);
     }
 
