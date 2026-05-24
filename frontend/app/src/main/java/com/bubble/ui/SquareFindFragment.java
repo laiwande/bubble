@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -23,27 +21,14 @@ public class SquareFindFragment extends Fragment {
 
     private RecyclerView recyclerCards;
     private CardAdapter cardAdapter;
-    private ImageView ivAdd;
-    private FrameLayout navFindPartner;
-    private FrameLayout navBubble;
-    private FrameLayout navBroadcast;
     private List<CardItem> cardList;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_square_find, container, false);
-        initViews(view);
         initRecyclerView(view);
-        initListeners();
         return view;
-    }
-
-    private void initViews(View view) {
-        ivAdd = view.findViewById(R.id.iv_add);
-        navFindPartner = view.findViewById(R.id.nav_follow);
-        navBubble = view.findViewById(R.id.nav_bubble);
-        navBroadcast = view.findViewById(R.id.nav_broadcast);
     }
 
     private void initRecyclerView(View view) {
@@ -68,39 +53,6 @@ public class SquareFindFragment extends Fragment {
             intent.putStringArrayListExtra("banTags", new ArrayList<>(card.getBanTags()));
             startActivity(intent);
         });
-    }
-
-    private void initListeners() {
-        // 加号按钮 - 跳转到创建页 (Activity)
-        ivAdd.setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), CreatePostActivity.class));
-        });
-
-        // 导航标签切换
-        navFindPartner.setOnClickListener(v -> switchTab(0));
-        navBubble.setOnClickListener(v -> switchTab(1));
-        navBroadcast.setOnClickListener(v -> switchTab(2));
-    }
-
-    private void switchTab(int tabIndex) {
-        navFindPartner.setBackgroundResource(tabIndex == 0 ? R.drawable.ic_square_black : R.drawable.bg_white_rounded);
-        navBubble.setBackgroundResource(tabIndex == 1 ? R.drawable.ic_square_black : R.drawable.bg_white_rounded);
-        navBroadcast.setBackgroundResource(tabIndex == 2 ? R.drawable.ic_square_black : R.drawable.bg_white_rounded);
-
-        updateNavTextColor(navFindPartner, tabIndex == 0);
-        updateNavTextColor(navBubble, tabIndex == 1);
-        updateNavTextColor(navBroadcast, tabIndex == 2);
-
-        if (tabIndex == 0) {
-            // 找搭子 - 已经在当前页
-        }
-    }
-
-    private void updateNavTextColor(FrameLayout navLayout, boolean isSelected) {
-        if (navLayout.getChildCount() > 0 && navLayout.getChildAt(0) instanceof android.widget.TextView) {
-            android.widget.TextView textView = (android.widget.TextView) navLayout.getChildAt(0);
-            textView.setTextColor(isSelected ? 0xFFFFFFFF : 0xFF000000);
-        }
     }
 
     // 添加新卡片到列表

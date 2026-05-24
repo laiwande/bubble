@@ -83,12 +83,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             tvTitle.setText(card.getTitle());
             tvSubtitle.setText(card.getSubtitle());
             
-            // 动态调整whitetab背景宽度
+            // 动态调整whitetab背景宽度，限制最大宽度避免覆盖右侧头像
             tvTitle.post(() -> {
                 int textWidth = tvTitle.getWidth();
-                int padding = dpToPx(itemView.getContext(), 24); // 左右padding各12dp
+                int padding = dpToPx(itemView.getContext(), 12); // 左右padding各6dp
                 int minWidth = dpToPx(itemView.getContext(), 60); // 最小宽度
+                // 最大宽度：卡片宽度 - 头像(40dp) - 边距(15dp+10dp) - 右侧头像区域(预留40dp)
+                int maxWidth = itemView.getWidth() - dpToPx(itemView.getContext(), 105);
                 int newWidth = Math.max(textWidth + padding, minWidth);
+                newWidth = Math.min(newWidth, maxWidth); // 限制最大宽度
                 
                 ViewGroup.LayoutParams params = bgWhitestab.getLayoutParams();
                 params.width = newWidth;
@@ -123,7 +126,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                     dpToPx(context, 24)
             );
             if (tagsContainer.getChildCount() > 0) {
-                params.setMarginStart(dpToPx(context, 7));
+                params.setMarginStart(dpToPx(context, 10));
             }
             tagLayout.setLayoutParams(params);
             tagLayout.setBackgroundResource(R.drawable.bg_blacktab);
@@ -150,7 +153,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             text.setTextColor(0xFFFFFFFF);
             text.setTextSize(12);
             text.setTypeface(null, android.graphics.Typeface.BOLD);
-            text.setSingleLine(true);
+            text.setMaxLines(1);
+            text.setIncludeFontPadding(false);
             tagLayout.addView(text);
 
             return tagLayout;

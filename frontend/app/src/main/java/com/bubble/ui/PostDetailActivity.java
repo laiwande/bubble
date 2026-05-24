@@ -109,10 +109,10 @@ public class PostDetailActivity extends AppCompatActivity {
             startActivity(new Intent(this, CreatePostActivity.class));
         });
 
-        // 导航标签切换
-        navFindPartner.setOnClickListener(v -> switchTab(0));
-        navBubble.setOnClickListener(v -> switchTab(1));
-        navBroadcast.setOnClickListener(v -> switchTab(2));
+        // 导航标签切换 - 在详情界面禁用
+        // navFindPartner.setOnClickListener(v -> switchTab(0));
+        // navBubble.setOnClickListener(v -> switchTab(1));
+        // navBroadcast.setOnClickListener(v -> switchTab(2));
 
         // Talk 按钮
         flTalk.setOnClickListener(v -> {
