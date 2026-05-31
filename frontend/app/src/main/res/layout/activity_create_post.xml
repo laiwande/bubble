@@ -142,14 +142,14 @@
         app:layout_constraintTop_toTopOf="@id/nav_container"
         app:layout_constraintBottom_toBottomOf="@id/nav_container" />
 
-    <!-- 大卡片 - 325*525 -->
+    <!-- 大卡片 - 下边距 70dp -->
     <androidx.cardview.widget.CardView
         android:id="@+id/card_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="36dp"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="70dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp"
         app:cardBackgroundColor="@android:color/white"
@@ -178,17 +178,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Topic Name 小卡片 - 百分比宽度 -->
+            <!-- Topic Name 小卡片 - 百分比宽度，右边缘对齐 day 卡片 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_topic_name"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
-                android:layout_marginEnd="36dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="@android:color/white"
                 app:layout_constraintWidth_percent="0.55"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/card_day"
                 app:layout_constraintTop_toTopOf="@id/iv_avatar"
                 app:layout_constraintBottom_toBottomOf="@id/iv_avatar">
 
@@ -211,7 +210,7 @@
                 android:id="@+id/tv_where_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="64dp"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/inter"
                 android:text="Where:"
@@ -221,17 +220,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
 
-            <!-- Address 小卡片 - 百分比宽度 -->
+            <!-- Address 小卡片 - 百分比宽度，右边缘对齐 day 卡片 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_address"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
-                android:layout_marginEnd="36dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="@android:color/white"
                 app:layout_constraintWidth_percent="0.55"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/card_day"
                 app:layout_constraintTop_toTopOf="@id/tv_where_label"
                 app:layout_constraintBottom_toBottomOf="@id/tv_where_label">
 
@@ -264,16 +262,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_where_label" />
 
-            <!-- Year 小卡片 - 百分比宽度 -->
+            <!-- Year 小卡片 - 百分比宽度，固定位置不跟随 address -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_year"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
+                android:layout_marginStart="8dp"
                 app:cardCornerRadius="6dp"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="@android:color/white"
                 app:layout_constraintWidth_percent="0.18"
-                app:layout_constraintStart_toStartOf="@id/card_address"
+                app:layout_constraintStart_toEndOf="@id/tv_when_label"
                 app:layout_constraintTop_toTopOf="@id/tv_when_label"
                 app:layout_constraintBottom_toBottomOf="@id/tv_when_label">
 
@@ -390,17 +389,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_when_label" />
 
-            <!-- Partner Number 小卡片 - 百分比宽度 -->
+            <!-- Partner Number 小卡片 - 右边缘对齐 day 卡片 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_partner_number"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="36dp"
                 app:cardCornerRadius="6dp"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="@android:color/white"
                 app:layout_constraintWidth_percent="0.40"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/card_day"
                 app:layout_constraintTop_toTopOf="@id/tv_partner_label"
                 app:layout_constraintBottom_toBottomOf="@id/tv_partner_label">
 
@@ -467,32 +465,34 @@
                 app:chipSpacingHorizontal="6dp"
                 app:chipSpacingVertical="0dp"
                 app:singleLine="true"
+                app:layout_constraintBottom_toBottomOf="@id/fl_wish_add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/fl_wish_add"
-                app:layout_constraintTop_toTopOf="@id/fl_wish_add"
-                app:layout_constraintBottom_toBottomOf="@id/fl_wish_add" />
+                app:layout_constraintTop_toTopOf="@id/fl_wish_add" />
 
-            <!-- Ban 行：标签 + 按钮 + 标签组 水平排列 -->
+            <!-- Ban 行：标签 + 按钮 + 标签组 水平排列，固定位置不随标签变化 -->
             <TextView
                 android:id="@+id/tv_ban_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginStart="20dp"
                 android:fontFamily="@font/inter"
                 android:text="Ban:"
                 android:textColor="#333333"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/tv_wish_label"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_wish_label" />
 
-            <!-- Ban Add 按钮 - 灰色圆圈+黑色add，与 Wish 按钮对齐 -->
+            <!-- Ban Add 按钮 - 灰色圆圈+黑色add，紧挨着 Ban 标签 -->
             <FrameLayout
                 android:id="@+id/fl_ban_add"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
+                android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_ban_label"
-                app:layout_constraintStart_toStartOf="@id/fl_wish_add"
+                app:layout_constraintStart_toEndOf="@id/tv_ban_label"
                 app:layout_constraintTop_toTopOf="@id/tv_ban_label">
 
                 <ImageView
@@ -518,17 +518,17 @@
                 app:chipSpacingHorizontal="6dp"
                 app:chipSpacingVertical="0dp"
                 app:singleLine="true"
+                app:layout_constraintBottom_toBottomOf="@id/fl_ban_add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/fl_ban_add"
-                app:layout_constraintTop_toTopOf="@id/fl_ban_add"
-                app:layout_constraintBottom_toBottomOf="@id/fl_ban_add" />
+                app:layout_constraintTop_toTopOf="@id/fl_ban_add" />
 
-            <!-- Description 标签 - 固定在Ban标签下方，不随标签组高度变化 -->
+            <!-- Description 标签 - 固定位置基于 Ban 标签而非 ChipGroup -->
             <TextView
                 android:id="@+id/tv_description_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/inter"
                 android:text="Description:"
@@ -538,22 +538,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_ban_label" />
 
-            <!-- Description 大卡片 - 固定位置和高度 -->
+            <!-- Description 大卡片 - 拉长 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_description"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="40dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_description_label"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/tv_description_label">
 
                 <EditText
                     android:id="@+id/et_description"
@@ -578,13 +576,13 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.995" />
 
-            <!-- 底部百分比参考线 - 距离下边缘约2% -->
+            <!-- 底部百分比参考线 - 下移对号 -->
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.98" />
+                app:layout_constraintGuide_percent="0.99" />
 
             <!-- 右下角棕色勾号按钮 - 百分比定位 -->
             <ImageView

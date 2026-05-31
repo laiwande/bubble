@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_marginHorizontal="25dp"
+    android:layout_marginHorizontal="15dp"
     android:layout_marginTop="12dp">
 
     <ImageView
@@ -54,7 +54,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/inter_bold"
                 android:includeFontPadding="false"
-                android:paddingHorizontal="12dp"
+                android:paddingHorizontal="6dp"
                 android:text="Title"
                 android:textColor="#393939"
                 android:textSize="14sp" />
@@ -75,16 +75,17 @@
             app:layout_constraintStart_toStartOf="@id/whitetab"
             app:layout_constraintTop_toBottomOf="@id/whitetab" />
 
-        <!-- 标签容器 -->
+        <!-- 标签容器 - 延伸到卡片右边缘 -->
         <LinearLayout
             android:id="@+id/tags_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="15dp"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@id/avatars_container"
+            android:clipChildren="false"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatar">
 
