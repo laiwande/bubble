@@ -37,6 +37,15 @@ public class AddFragment extends Fragment {
             }
         }
 
+        // 商店入口
+        ImageView ivChooseShop = view.findViewById(R.id.iv_choose_shop);
+        if (ivChooseShop != null) {
+            ivChooseShop.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), ShopActivity.class);
+                startActivity(intent);
+            });
+        }
+
         return view;
     }
 }

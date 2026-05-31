@@ -37,7 +37,7 @@
   <!-- 右侧蓝色圆点 -->
   <path
       android:pathData="M133,10m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
-      android:fillColor="#64B5F6"/>
+      android:fillColor="#A7B9BF"/>
 
   <!-- 右侧未选中复选框 - 使用 ic_checkbox 原始 pathData (平移 dx=141.5, dy=5) -->
   <path
