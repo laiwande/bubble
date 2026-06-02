@@ -8,8 +8,10 @@ import com.bubble.dvo.UserVO;
 import com.bubble.entity.User;
 import com.bubble.mapper.UserMapper;
 import com.bubble.service.UserService;
+import com.bubble.service.VerificationCodeService;
 import com.bubble.util.JwtUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Autowired
+    private VerificationCodeService verificationCodeService;
 
     @Override
     public String login(UserLoginDTO loginDTO) {
@@ -37,6 +42,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void register(UserRegisterDTO registerDTO) {
+        // 验证码校验
+        String code = registerDTO.getVerificationCode();
+        if (code == null || code.isEmpty()) {
+            throw new RuntimeException("验证码不能为空");
+        }
+        if (!verificationCodeService.verifyCode(registerDTO.getEmail(), code)) {
+            throw new RuntimeException("验证码错误或已过期");
+        }
+
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(User::getEmail, registerDTO.getEmail());
         if (getOne(wrapper) != null) {

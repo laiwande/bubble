@@ -8,6 +8,7 @@ public class CardItem {
     private String subtitle;
     private List<TagItem> tags;
     private int avatarRightCount;
+    private String userId; // 用户ID，用于生成头像
     
     // 详情页字段
     private String year;
@@ -25,6 +26,17 @@ public class CardItem {
         this.subtitle = subtitle;
         this.tags = tags;
         this.avatarRightCount = avatarRightCount;
+        this.wishTags = new ArrayList<>();
+        this.banTags = new ArrayList<>();
+    }
+
+    // 构造函数（带用户ID）
+    public CardItem(String title, String subtitle, List<TagItem> tags, int avatarRightCount, String userId) {
+        this.title = title;
+        this.subtitle = subtitle;
+        this.tags = tags;
+        this.avatarRightCount = avatarRightCount;
+        this.userId = userId;
         this.wishTags = new ArrayList<>();
         this.banTags = new ArrayList<>();
     }
@@ -52,6 +64,8 @@ public class CardItem {
     public String getSubtitle() { return subtitle; }
     public List<TagItem> getTags() { return tags; }
     public int getAvatarRightCount() { return avatarRightCount; }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
     
     // 详情页 getter
     public String getYear() { return year != null ? year : ""; }

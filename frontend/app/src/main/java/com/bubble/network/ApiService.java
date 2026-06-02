@@ -4,6 +4,7 @@ import com.bubble.model.Bubble;
 import com.bubble.model.BubblePost;
 import com.bubble.model.Message;
 import com.bubble.model.PageData;
+import com.bubble.model.PartnerPost;
 import com.bubble.model.Result;
 import com.bubble.model.User;
 import retrofit2.Call;
@@ -20,6 +21,10 @@ public interface ApiService {
     // 用户登录
     @POST("user/login")
     Call<Result<Map<String, String>>> login(@Body Map<String, String> loginData);
+
+    // 发送验证码
+    @POST("user/send-code")
+    Call<Result<Void>> sendVerificationCode(@Body Map<String, String> data);
 
     // 用户注册
     @POST("user/register")
@@ -64,6 +69,10 @@ public interface ApiService {
     // 创建帖子
     @POST("post/create")
     Call<Result<BubblePost>> createPost(@Header("Authorization") String token, @Body Map<String, Object> data);
+
+    // 创建找搭子帖子
+    @POST("partner/create")
+    Call<Result<PartnerPost>> createPartnerPost(@Header("Authorization") String token, @Body Map<String, Object> data);
 
     // 点赞帖子
     @POST("post/{postId}/like")

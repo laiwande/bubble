@@ -16,10 +16,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import com.bubble.R;
+import com.bubble.model.PartnerPost;
+import com.bubble.model.Result;
+import com.bubble.network.ApiClient;
+import com.bubble.network.ApiService;
+import com.bubble.utils.AvatarUtils;
+import com.bubble.utils.SharedPreferencesUtil;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import com.bumptech.glide.Glide;
 
 public class CreatePostActivity extends AppCompatActivity {
 
@@ -105,13 +119,32 @@ public class CreatePostActivity extends AppCompatActivity {
 
         // 提交按钮
         ivSubmit = findViewById(R.id.iv_submit);
+        
+        // 加载当前用户的可爱头像
+        loadUserAvatar();
+    }
+
+    /**
+     * 加载用户头像（使用 DiceBear 生成可爱卡通头像）
+     */
+    private void loadUserAvatar() {
+        SharedPreferencesUtil spUtil = new SharedPreferencesUtil(this);
+        Long userId = spUtil.getUserId();
+        String avatarSeed = (userId != null) ? String.valueOf(userId) : String.valueOf(System.currentTimeMillis());
+        
+        Glide.with(this)
+                .load(AvatarUtils.getAvatarUrl(avatarSeed))
+                .placeholder(R.drawable.ic_me_user)
+                .error(R.drawable.ic_me_user)
+                .circleCrop()
+                .into(ivAvatarTop);
     }
 
     private void initListeners() {
         // 返回按钮
         ivMenu.setOnClickListener(v -> finish());
 
-        // 头像点击
+        // 头像点击 - 显示可爱头像
         ivAvatarTop.setOnClickListener(v -> {
             Toast.makeText(this, "个人中心", Toast.LENGTH_SHORT).show();
         });
@@ -264,21 +297,103 @@ public class CreatePostActivity extends AppCompatActivity {
         String year = etYear.getText().toString().trim();
         String month = etMonth.getText().toString().trim();
         String day = etDay.getText().toString().trim();
-        String partnerNumber = etPartnerNumber.getText().toString().trim();
+        String partnerNumberStr = etPartnerNumber.getText().toString().trim();
         String description = etDescription.getText().toString().trim();
 
         // 检查必填项
-        if (topicName.isEmpty() || address.isEmpty() || year.isEmpty() 
+        if (topicName.isEmpty() || address.isEmpty() || year.isEmpty()
                 || month.isEmpty() || day.isEmpty() || description.isEmpty()) {
             Toast.makeText(this, "编辑不完整", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 显示发布成功提示
-        Toast.makeText(this, "发布成功", Toast.LENGTH_SHORT).show();
+        // 校验日期数值合法性
+        int m, d;
+        try {
+            m = Integer.parseInt(month);
+            d = Integer.parseInt(day);
+            if (m < 1 || m > 12) throw new NumberFormatException();
+            if (d < 1 || d > 31) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "请填写正确的日期", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // 关闭Activity
-        finish();
+        // 拼接活动日期（强制两位补零）
+        String activityDate = year + "-" + String.format("%02d", m)
+                + "-" + String.format("%02d", d);
+
+        // 获取 token
+        SharedPreferencesUtil spUtil = new SharedPreferencesUtil(this);
+        String token = spUtil.getToken();
+        if (token.isEmpty()) {
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 构建请求体
+        Map<String, Object> body = new HashMap<>();
+        body.put("topicName", topicName);
+        body.put("address", address);
+        body.put("activityDate", activityDate);
+        body.put("description", description);
+        if (!partnerNumberStr.isEmpty()) {
+            body.put("partnerNumber", Integer.parseInt(partnerNumberStr));
+        }
+        // List<String> -> JSON 字符串
+        Gson gson = new Gson();
+        body.put("wishTags", gson.toJson(wishTags));
+        body.put("banTags", gson.toJson(banTags));
+
+        // 调用 API
+        ApiService apiService = ApiClient.getApiService();
+        apiService.createPartnerPost("Bearer " + token, body).enqueue(new Callback<Result<PartnerPost>>() {
+            @Override
+            public void onResponse(Call<Result<PartnerPost>> call, Response<Result<PartnerPost>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getCode() == 200) {
+                    PartnerPost post = response.body().getData();
+                    Toast.makeText(CreatePostActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+
+                    // 回传数据给 SquareFindFragment
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("new_post_id", post.getId());
+                    resultIntent.putExtra("new_post_topicName", post.getTopicName());
+                    resultIntent.putExtra("new_post_address", post.getAddress());
+                    resultIntent.putExtra("new_post_activityDate", post.getActivityDate());
+                    resultIntent.putExtra("new_post_partnerNumber", post.getPartnerNumber());
+                    resultIntent.putExtra("new_post_description", post.getDescription());
+                    // wishTags/banTags 后端返回的是 JSON 字符串，需要解析成 ArrayList 再传
+                    java.lang.reflect.Type listType = new com.google.gson.reflect.TypeToken<ArrayList<String>>(){}.getType();
+                    String wishJson = post.getWishTags();
+                    String banJson = post.getBanTags();
+                    resultIntent.putStringArrayListExtra("new_post_wishTags",
+                            wishJson != null && !wishJson.isEmpty() ? gson.fromJson(wishJson, listType) : new ArrayList<>());
+                    resultIntent.putStringArrayListExtra("new_post_banTags",
+                            banJson != null && !banJson.isEmpty() ? gson.fromJson(banJson, listType) : new ArrayList<>());
+                    resultIntent.putExtra("new_post_createTime", post.getCreateTime());
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
+                } else {
+                    String msg;
+                    if (response.body() != null) {
+                        msg = response.body().getMessage();
+                    } else {
+                        // 尝试读取 error body
+                        try {
+                            msg = "HTTP " + response.code() + ": " + response.errorBody().string();
+                        } catch (Exception e) {
+                            msg = "HTTP " + response.code() + " (空响应)";
+                        }
+                    }
+                    Toast.makeText(CreatePostActivity.this, "发布失败: " + msg, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result<PartnerPost>> call, Throwable t) {
+                Toast.makeText(CreatePostActivity.this, "网络错误: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void clearForm() {

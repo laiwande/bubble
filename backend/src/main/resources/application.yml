@@ -50,3 +50,19 @@ jwt:
 logging:
   level:
     com.bubble: debug
+
+# 邮件配置
+spring.mail:
+  host: smtp.qq.com
+  port: 465
+  username: 1025289193@qq.com
+  password: hrcduhtmcocibfgh
+  properties:
+    mail.smtp.ssl.enable: true
+    mail.smtp.auth: true
+  default-encoding: UTF-8
+
+# 验证码配置
+verification-code:
+  expire-minutes: 5
+  length: 6

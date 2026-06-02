@@ -9,8 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.bubble.R;
 import com.bubble.ui.model.CardItem;
+import com.bubble.utils.AvatarUtils;
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
@@ -82,6 +84,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         public void bind(CardItem card) {
             tvTitle.setText(card.getTitle());
             tvSubtitle.setText(card.getSubtitle());
+            
+            // 加载可爱的 DiceBear 头像（根据用户ID生成唯一头像）
+            String avatarSeed = card.getUserId() != null ? card.getUserId() : card.getTitle();
+            Glide.with(itemView.getContext())
+                    .load(AvatarUtils.getAvatarUrl(avatarSeed))
+                    .placeholder(R.drawable.ic_me_user)
+                    .error(R.drawable.ic_me_user)
+                    .circleCrop()
+                    .into(avatar);
             
             // 动态调整whitetab背景宽度，限制最大宽度避免覆盖右侧头像
             tvTitle.post(() -> {
@@ -170,7 +181,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             avatar.setLayoutParams(params);
             avatar.setBackgroundResource(R.drawable.bg_circle);
             avatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            avatar.setImageResource(R.drawable.ic_me_user);
+            
+            // 使用 DiceBear 生成随机可爱头像
+            Glide.with(context)
+                    .load(AvatarUtils.getRandomAvatarUrl())
+                    .placeholder(R.drawable.ic_me_user)
+                    .error(R.drawable.ic_me_user)
+                    .circleCrop()
+                    .into(avatar);
+            
             return avatar;
         }
 

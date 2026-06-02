@@ -1,10 +1,12 @@
 package com.bubble.ui;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.bubble.R;
+import com.bubble.receiver.BatteryReceiver;
 import com.bubble.utils.SharedPreferencesUtil;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +14,9 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.BottomNavigationListener {
 
     private BottomNavigationView bottomNavigationView;
+
+    // 电量广播接收器
+    private BatteryReceiver batteryReceiver;
 
     // 5个Fragment实例
     private BubbleFragment bubbleFragment;
@@ -118,5 +123,32 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onMeTabClicked() {
         switchFragment(R.id.tab_me);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        // 动态注册电量广播接收器
+        if (batteryReceiver == null) {
+            batteryReceiver = new BatteryReceiver();
+        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_BATTERY_LOW);
+        filter.addAction(Intent.ACTION_BATTERY_OKAY);
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        registerReceiver(batteryReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        
+        // 注销电量广播接收器，防止内存泄漏
+        if (batteryReceiver != null) {
+            unregisterReceiver(batteryReceiver);
+            batteryReceiver = null;
+        }
     }
 }

@@ -55,11 +55,18 @@ public class SquareFindFragment extends Fragment {
         });
     }
 
-    // 添加新卡片到列表
+    // 添加新卡片到列表（追加到末尾）
     public void addNewCard(CardItem newCard) {
         cardList.add(newCard);
         cardAdapter.notifyItemInserted(cardList.size() - 1);
         recyclerCards.scrollToPosition(cardList.size() - 1);
+    }
+
+    // 添加新卡片到列表顶部
+    public void addNewCardAtTop(CardItem newCard) {
+        cardList.add(0, newCard);
+        cardAdapter.notifyItemInserted(0);
+        recyclerCards.scrollToPosition(0);
     }
 
     private List<CardItem> getSampleData() {

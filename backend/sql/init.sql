@@ -103,6 +103,27 @@ CREATE TABLE bubble_post (
   INDEX idx_create_time (create_time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='泡泡墙帖子表';
 
+-- ==================== 四点五、找搭子模块 ====================
+
+-- 7.5. 找搭子帖子表
+CREATE TABLE partner_post (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '帖子ID',
+  user_id BIGINT NOT NULL COMMENT '发布者ID',
+  topic_name VARCHAR(100) NOT NULL COMMENT '活动名称',
+  address VARCHAR(255) COMMENT '活动地址',
+  activity_date DATE COMMENT '活动日期',
+  partner_number INT COMMENT '搭子人数（0=不限）',
+  description TEXT NOT NULL COMMENT '活动描述',
+  wish_tags JSON COMMENT '期望标签',
+  ban_tags JSON COMMENT '避免标签',
+  status TINYINT DEFAULT 1 COMMENT '状态：0已结束 1进行中',
+  deleted TINYINT DEFAULT 0 COMMENT '是否删除：0未删除 1已删除',
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  INDEX idx_user_id (user_id),
+  INDEX idx_activity_date (activity_date),
+  INDEX idx_create_time (create_time)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='找搭子帖子表';
+
 -- 8. 评论表
 CREATE TABLE post_comment (
   id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '评论ID',

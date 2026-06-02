@@ -132,30 +132,29 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        Map<String, String> registerData = new HashMap<>();
-        registerData.put("email", email);
-        registerData.put("password", password);
-        registerData.put("username", username);
+        // 先发送验证码
+        Map<String, String> codeData = new HashMap<>();
+        codeData.put("email", email);
 
         ApiService apiService = ApiClient.getApiService();
-        apiService.register(registerData).enqueue(new Callback<Result<Void>>() {
+        apiService.sendVerificationCode(codeData).enqueue(new Callback<Result<Void>>() {
             @Override
             public void onResponse(Call<Result<Void>> call, Response<Result<Void>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Result<Void> result = response.body();
                     if (result.getCode() == 200) {
-                        Toast.makeText(LoginActivity.this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
-                        // 注册成功后切回登录模式
-                        isRegisterMode = true; // toggleMode会取反，所以先设为true
-                        toggleMode();
-                        binding.etEmail.setText("");
-                        binding.etPassword.setText("");
-                        binding.etUsername.setText("");
+                        Toast.makeText(LoginActivity.this, "验证码已发送，请查收邮件", Toast.LENGTH_SHORT).show();
+                        // 跳转到验证页面，携带待注册信息
+                        Intent intent = new Intent(LoginActivity.this, VerifyActivity.class);
+                        intent.putExtra("email", email);
+                        intent.putExtra("password", password);
+                        intent.putExtra("username", username);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "发送验证码失败", Toast.LENGTH_SHORT).show();
                 }
             }
 

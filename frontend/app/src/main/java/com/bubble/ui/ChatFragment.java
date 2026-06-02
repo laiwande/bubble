@@ -1,5 +1,6 @@
 package com.bubble.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -147,7 +148,10 @@ public class ChatFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener((item, position) -> {
-            // TODO: 处理 bubble 点击事件
+            Intent intent = new Intent(requireContext(), ChatConcreteActivity.class);
+            intent.putExtra(ChatConcreteActivity.EXTRA_USER_ID, item.id);
+            intent.putExtra(ChatConcreteActivity.EXTRA_USER_NAME, item.title);
+            startActivity(intent);
         });
 
         swipeRefresh.setOnRefreshListener(() -> loadData());

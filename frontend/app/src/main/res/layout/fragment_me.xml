@@ -54,6 +54,7 @@
                     android:fontFamily="@font/inter_regular" />
 
                 <ImageView
+                    android:id="@+id/iv_avatar_me"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_marginStart="12dp"
@@ -194,6 +195,43 @@
                 <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_me_privacy" android:scaleType="fitCenter" android:layout_marginStart="10dp" />
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="Privacy Policy" android:textColor="@android:color/white" android:textSize="14sp" android:fontFamily="@font/inter_regular" />
                 <ImageView android:layout_width="6dp" android:layout_height="10dp" android:src="@drawable/ic_me_next" android:scaleType="fitCenter" android:layout_marginEnd="20dp" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" />
+
+            <!-- Battery Monitor Service -->
+            <LinearLayout
+                android:id="@+id/layout_battery_monitor"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
+                <ImageView 
+                    android:layout_width="20dp" 
+                    android:layout_height="20dp" 
+                    android:src="@android:drawable/stat_sys_battery" 
+                    android:scaleType="fitCenter" 
+                    android:layout_marginStart="10dp" />
+                <TextView 
+                    android:layout_width="0dp" 
+                    android:layout_height="wrap_content" 
+                    android:layout_weight="1" 
+                    android:layout_marginStart="16dp" 
+                    android:text="Battery Monitor" 
+                    android:textColor="@android:color/white" 
+                    android:textSize="14sp" 
+                    android:fontFamily="@font/inter_regular" />
+                <Switch
+                    android:id="@+id/switch_battery_monitor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:thumbTint="@color/switch_thumb_selector"
+                    android:trackTint="@color/switch_track_selector" />
             </LinearLayout>
             <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#66FFFFFF" android:layout_marginHorizontal="1dp" />
         </LinearLayout>

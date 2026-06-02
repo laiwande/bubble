@@ -5,6 +5,7 @@ import com.bubble.dto.UserLoginDTO;
 import com.bubble.dto.UserRegisterDTO;
 import com.bubble.dvo.UserVO;
 import com.bubble.service.UserService;
+import com.bubble.service.VerificationCodeService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,19 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private VerificationCodeService verificationCodeService;
+
+    @PostMapping("/send-code")
+    public Result<Void> sendVerificationCode(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        if (email == null || email.isEmpty()) {
+            return Result.error("邮箱不能为空");
+        }
+        verificationCodeService.generateAndSaveCode(email);
+        return Result.success();
+    }
 
     @PostMapping("/login")
     public Result<Map<String, String>> login(@RequestBody UserLoginDTO loginDTO) {
