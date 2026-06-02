@@ -26,7 +26,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="48dp"
         android:elevation="4dp"
-        android:src="@drawable/ic_arrow_back"
+        android:src="@drawable/ic_back"
+        app:tint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -168,7 +169,7 @@
                 android:layout_height="32dp"
                 android:layout_marginStart="14dp"
                 android:src="@drawable/ic_plus"
-                android:tint="#CFCFCF" />
+                app:tint="#CFCFCF" />
         </LinearLayout>
 
         <!-- 加号展开面板 (默认隐藏, 点击加号后显示, 在下方) -->
