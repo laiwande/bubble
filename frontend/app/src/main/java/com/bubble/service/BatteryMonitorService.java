@@ -3,7 +3,7 @@ package com.bubble.service;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import appcompat.app.Service;
+import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
@@ -109,7 +109,7 @@ public class BatteryMonitorService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("电量监控中")
                 .setContentText("正在后台监控设备电量状态...")
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setSilent(true);  // 静音，不发出提示音

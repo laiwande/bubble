@@ -168,7 +168,7 @@ public class MeFragment extends Fragment {
      * 检查电量监控服务是否正在运行
      */
     private boolean isBatteryServiceRunning() {
-        if (getContext() == null) false;
+        if (getContext() == null) return false;
         
         try {
             Context context = requireContext();
