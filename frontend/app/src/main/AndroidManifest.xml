@@ -33,19 +33,6 @@
         <activity
             android:name=".ui.PostDetailActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.ChatConcreteActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.VerifyActivity"
-            android:exported="false" />
-        
-        <!-- 电量监控前台服务 -->
-        <service
-            android:name=".service.BatteryMonitorService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="specialUse" />
     </application>
 
 </manifest>

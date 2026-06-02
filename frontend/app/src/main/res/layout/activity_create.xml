@@ -43,17 +43,18 @@
         android:layout_height="48dp"
         android:padding="12dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_arrow_back"
+        android:src="@drawable/ic_back"
         android:layout_marginStart="15dp"
         android:layout_marginTop="60dp"
+        app:tint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Bubble Card 顶部卡片 -->
     <ImageView
         android:id="@+id/iv_card_bubble"
-        android:layout_width="350dp"
-        android:layout_height="265dp"
+        android:layout_width="329dp"
+        android:layout_height="218dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="-45dp"
         android:layout_marginEnd="40dp"
@@ -81,16 +82,12 @@
             android:id="@+id/note_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="0dp"
-            android:layout_marginTop="35dp"
-            android:paddingHorizontal="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_card_bubble">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- 便利签背景图 -->
 
+            <!-- Name 字段 -->
             <ImageView
                 android:id="@+id/iv_card_note_bg"
                 android:layout_width="351dp"
@@ -102,17 +99,16 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/card_note"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-            <!-- Name 字段 -->
             <TextView
                 android:id="@+id/tv_name_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="88dp"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="90dp"
                 android:fontFamily="@font/gloriahallelujah"
                 android:text="Name ："
                 android:textColor="#333333"
@@ -130,32 +126,34 @@
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-            <TextView
-                android:id="@+id/tv_name_value"
-                android:layout_width="wrap_content"
+
+            <!-- Name 字段下方的横线 -->
+            <EditText
+                android:id="@+id/etNameValue"
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="110dp"
-                android:layout_marginTop="78dp"
-                android:fontFamily="@font/gloriahallelujah"
-                android:text=""
+                android:layout_marginStart="149dp"
+                android:layout_marginTop="89dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/youyuanheiti"
+                android:hint=" "
+                android:inputType="text"
+                android:singleLine="true"
                 android:textColor="#333333"
-                android:textSize="14sp"
+                android:textColorHint="#333333"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-            <!-- Name 字段下方的横线 -->
-            <ImageView
-                android:id="@+id/iv_name_underline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="120dp"
+
+            <!-- Name 动态下划线 -->
+            <View
+                android:id="@+id/v_name_underline"
+                android:layout_width="100dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="140dp"
                 android:layout_marginTop="110dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:scaleX="0.3"
-                android:scaleY="0.3"
-                android:src="@drawable/card_line"
-                android:transformPivotX="0dp"
+                android:background="#999999"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
@@ -198,12 +196,12 @@
                 android:id="@+id/tv_age_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="83dp"
+                android:layout_marginStart="80dp"
                 android:layout_marginTop="145dp"
                 android:fontFamily="@font/gloriahallelujah"
                 android:text="Age ："
                 android:textColor="#333333"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
@@ -212,15 +210,49 @@
                 android:id="@+id/iv_card_input_bracket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="135dp"
-                android:layout_marginTop="155dp"
+                android:layout_marginStart="145dp"
+                android:layout_marginTop="153dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:scaleX="0.2"
-                android:scaleY="0.2"
+                android:scaleX="0.25"
+                android:scaleY="0.25"
                 android:src="@drawable/card_input_bracket"
                 android:transformPivotX="0dp"
                 android:transformPivotY="0dp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <EditText
+                android:id="@+id/etNewField1"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="155dp"
+                android:layout_marginTop="142dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/gloriahallelujah"
+                android:hint=" "
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <EditText
+                android:id="@+id/etNewField2"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="195dp"
+                android:layout_marginTop="142dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/gloriahallelujah"
+                android:hint=" "
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
@@ -234,33 +266,102 @@
                 android:fontFamily="@font/gloriahallelujah"
                 android:text="Gender ："
                 android:textColor="#333333"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-            <ImageView
-                android:id="@+id/iv_gender"
-                android:layout_width="124dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="115dp"
-                android:layout_marginTop="188dp"
-                android:src="@drawable/ic_gender"
-                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-            <TextView
-                android:id="@+id/tv_gender_value"
+            <!-- 性别选择容器 - 改为ConstraintLayout以支持叠加定位 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/gender_container"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="162dp"
-                android:layout_marginTop="179dp"
-                android:scaleX="0.4"
-                android:scaleY="0.4"
-                android:text="20"
-                android:textColor="#ADACA8"
-                android:textSize="14sp"
+                android:layout_height="50dp"
+                android:layout_marginStart="115dp"
+                android:layout_marginTop="168dp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg">
+
+
+                <TextView
+                    android:id="@+id/tv_gender_value"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-10dp"
+                    android:layout_marginBottom="2dp"
+                    android:gravity="center"
+                    android:scaleX="0.4"
+                    android:scaleY="0.4"
+                    android:text="50"
+                    android:textColor="#ADACA8"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@id/gender_row"
+                    app:layout_constraintStart_toStartOf="@id/sb_gender" />
+
+                <!-- 内层水平行：复选框+圆点+SeekBar+圆点+复选框 -->
+                <LinearLayout
+                    android:id="@+id/gender_row"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!-- 左侧复选框 (女生) -->
+                    <ImageView
+                        android:id="@+id/iv_female_checkbox"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginStart="8dp"
+                        android:clickable="true"
+                        android:contentDescription="女生"
+                        android:focusable="true"
+                        android:src="@drawable/cb_male_unchecked" />
+
+                    <!-- 左侧粉色圆点 -->
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/dot_pink" />
+
+                    <!-- SeekBar 滑动轨道 -->
+                    <SeekBar
+                        android:id="@+id/sb_gender"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-7dp"
+                        android:layout_marginEnd="-7dp"
+                        android:max="100"
+                        android:maxHeight="6dp"
+                        android:minHeight="6dp"
+                        android:progress="50"
+                        android:progressDrawable="@drawable/sb_gender_track"
+                        android:splitTrack="false"
+                        android:thumb="@drawable/sb_gender_thumb"
+                        android:thumbOffset="0dp" />
+
+                    <!-- 右侧蓝色圆点 -->
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@drawable/dot_blue" />
+
+                    <!-- 右侧复选框 (男生) -->
+                    <ImageView
+                        android:id="@+id/iv_male_checkbox"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginStart="3dp"
+                        android:clickable="true"
+                        android:contentDescription="男生"
+                        android:focusable="true"
+                        android:src="@drawable/cb_male_unchecked" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <!-- Number 字段 - 第9行 -->
             <TextView
@@ -272,7 +373,7 @@
                 android:fontFamily="@font/gloriahallelujah"
                 android:text="Number ："
                 android:textColor="#333333"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
@@ -287,103 +388,130 @@
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-            <!-- Label allow 字段 - 第11行 -->
+            <EditText
+                android:id="@+id/etNewField3"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="152dp"
+                android:layout_marginTop="213dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/gloriahallelujah"
+                android:hint=" "
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
+            <!-- Label 字段 -->
             <TextView
                 android:id="@+id/tv_label_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="75dp"
+                android:layout_marginStart="72dp"
                 android:layout_marginTop="250dp"
                 android:fontFamily="@font/gloriahallelujah"
                 android:text="Label ："
                 android:textColor="#333333"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
+            <!-- 左括号 -->
             <ImageView
                 android:id="@+id/iv_bracket_left"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginStart="125dp"
+                android:layout_marginStart="110dp"
                 android:layout_marginTop="255dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_bracket_left"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-            <!-- 改为 -->
+            <!-- Allow 行：标签 + 按钮 + 标签组 -->
             <TextView
                 android:id="@+id/tv_allow_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="150dp"
-                android:layout_marginTop="248dp"
+                android:layout_marginStart="140dp"
+                android:layout_marginTop="253dp"
                 android:fontFamily="@font/gloriahallelujah"
                 android:text="allow ："
                 android:textColor="#333333"
-                android:textSize="14sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-
-            <ImageView
-                android:id="@+id/iv_allow_gray"
-                android:layout_width="32dp"
-                android:layout_height="9dp"
-                android:layout_marginStart="205dp"
-                android:layout_marginTop="260dp"
-                android:src="@drawable/ic_allow_gray_combined"
-                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-            <ImageView
-                android:id="@+id/iv_add_input"
+            <!-- Allow 标签容器（在字段和加号之间） -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_allow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="78dp"
-                android:layout_marginTop="-2dp"
+                android:layout_marginTop="2dp"
+                app:chipSpacingHorizontal="1dp"
+                app:chipSpacingVertical="0dp"
+                app:singleLine="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="@id/tv_allow_label"
+                app:layout_constraintEnd_toStartOf="@id/iv_add_allow"
+                app:layout_constraintStart_toEndOf="@id/tv_allow_label"
+                app:layout_constraintTop_toTopOf="@id/tv_allow_label" />
+
+            <!-- Allow 添加按钮（紧跟标签后面） -->
+            <ImageView
+                android:id="@+id/iv_add_allow"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="2dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_add_input"
-                app:layout_constraintStart_toEndOf="@id/iv_allow_gray"
-                app:layout_constraintTop_toTopOf="@id/iv_allow_gray" />
+                app:layout_constraintBottom_toBottomOf="@id/tv_allow_label"
+                app:layout_constraintStart_toEndOf="@id/chip_group_allow"
+                app:layout_constraintTop_toTopOf="@id/tv_allow_label" />
 
-            <!-- Ban 字段 - 第12行 -->
+            <!-- Ban 行：标签 + 按钮 + 标签组 -->
             <TextView
                 android:id="@+id/tv_ban_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="157dp"
-                android:layout_marginTop="268dp"
+                android:layout_marginStart="145dp"
+                android:layout_marginTop="271dp"
                 android:fontFamily="@font/gloriahallelujah"
                 android:text="ban ："
                 android:textColor="#333333"
-                android:textSize="14sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-            <ImageView
-                android:id="@+id/iv_ban_gray"
-                android:layout_width="32dp"
-                android:layout_height="9dp"
-                android:layout_marginStart="205dp"
-                android:layout_marginTop="280dp"
-                android:elevation="12dp"
-                android:src="@drawable/ic_ban_gray_combined"
-                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
-
-            <ImageView
-                android:id="@+id/iv_add_input_ban1"
+            <!-- Ban 标签容器（在字段和加号之间） -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_ban_create"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="78dp"
-                android:layout_marginTop="-2dp"
-                android:elevation="13dp"
+                android:layout_marginTop="2dp"
+                app:chipSpacingHorizontal="-10dp"
+                app:chipSpacingVertical="0dp"
+                app:singleLine="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="@id/tv_ban_label"
+                app:layout_constraintEnd_toStartOf="@id/iv_add_ban"
+                app:layout_constraintStart_toEndOf="@id/tv_ban_label"
+                app:layout_constraintTop_toTopOf="@id/tv_ban_label" />
+
+            <!-- Ban 添加按钮（紧跟标签后面） -->
+            <ImageView
+                android:id="@+id/iv_add_ban"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="2dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_add_input"
-                app:layout_constraintStart_toEndOf="@id/iv_ban_gray"
-                app:layout_constraintTop_toTopOf="@id/iv_ban_gray" />
+                app:layout_constraintBottom_toBottomOf="@id/tv_ban_label"
+                app:layout_constraintStart_toEndOf="@id/chip_group_ban_create"
+                app:layout_constraintTop_toTopOf="@id/tv_ban_label" />
 
 
             <!-- This Bubble Label 字段 - 第15行 -->
@@ -391,36 +519,41 @@
                 android:id="@+id/tv_bubble_label_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="60dp"
                 android:layout_marginTop="323dp"
                 android:fontFamily="@font/gloriahallelujah"
                 android:text="This Bubble Lable ："
                 android:textColor="#333333"
-                android:textSize="14sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-            <ImageView
-                android:id="@+id/iv_rounded_gray"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="-6dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_rounded_gray"
+            <!-- Bubble Label 标签容器（在字段和加号之间） -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_bubble_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:chipSpacingHorizontal="-3dp"
+                app:chipSpacingVertical="0dp"
+                app:singleLine="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="@id/tv_bubble_label_text"
+                app:layout_constraintEnd_toStartOf="@id/iv_add_input_bubble_label"
                 app:layout_constraintStart_toEndOf="@id/tv_bubble_label_text"
                 app:layout_constraintTop_toTopOf="@id/tv_bubble_label_text" />
 
+            <!-- Bubble Label 添加按钮（紧跟标签后面） -->
             <ImageView
                 android:id="@+id/iv_add_input_bubble_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="245dp"
-                android:layout_marginTop="330dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="2dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_add_input"
-                app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
-                app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+                app:layout_constraintBottom_toBottomOf="@id/tv_bubble_label_text"
+                app:layout_constraintStart_toEndOf="@id/chip_group_bubble_label"
+                app:layout_constraintTop_toTopOf="@id/tv_bubble_label_text" />
 
             <!-- This Bubble Wall 字段 - 第17行 -->
             <TextView
@@ -428,19 +561,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
-                android:layout_marginTop="355dp"
+                android:layout_marginTop="358dp"
                 android:fontFamily="@font/gloriahallelujah"
                 android:text="This Bubble Wall"
                 android:textColor="#333333"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
+
 
             <!-- Card Note Input -->
             <ImageView
                 android:id="@+id/iv_card_note_input"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_width="308dp"
+                android:layout_height="64dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="375dp"
                 android:adjustViewBounds="true"
@@ -451,44 +585,124 @@
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
-            <!-- ic_wall_input -->
-            <ImageView
-                android:id="@+id/iv_ic_wall_input"
-                android:layout_width="300dp"
+
+            <EditText
+                android:id="@+id/etNewField4"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-70dp"
+                android:layout_marginStart="80dp"
                 android:layout_marginTop="380dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:scaleX="0.05"
-                android:scaleY="0.05"
-                android:src="@drawable/ic_wall_input"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:ellipsize="end"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:fontFamily="@font/youyuanheiti"
+                android:hint=" "
+                android:inputType="textMultiLine"
+                android:maxLines="1"
+                android:minHeight="40dp"
+                android:scrollbars="vertical"
+                android:textColor="#333333"
+                android:textColorHint="#333333"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/iv_card_note_bg"
                 app:layout_constraintTop_toTopOf="@id/iv_card_note_bg" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- Create 按钮 -->
-        <Button
-            android:id="@+id/btn_create"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="-90dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginBottom="17dp"
-            android:backgroundTint="#ECC4CB"
-            android:fontFamily="@font/archivo_black"
-            android:text="Create"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            app:cornerRadius="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/note_container" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- Create 按钮 - 独立于 form_container，位置不受上方内容高度变化影响 -->
+    <Button
+        android:id="@+id/btn_create"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#ECC4CB"
+        android:fontFamily="@font/archivo_black"
+        android:text="Create"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- 展开编辑区域背景遮罩 -->
+    <View
+        android:id="@+id/view_expand_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 展开的编辑区域 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/expand_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/bg_expand_container"
+        android:elevation="10dp"
+        android:padding="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_expand_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_expand_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gloriahallelujah"
+            android:text="This Bubble Wall"
+            android:textColor="#333333"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_expand_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_expand_back" />
+
+        <EditText
+            android:id="@+id/et_expand_input"
+            android:layout_width="0dp"
+            android:layout_height="220dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_expand_input"
+            android:fontFamily="@font/gloriahallelujah"
+            android:gravity="top|start"
+            android:hint="在此输入内容..."
+            android:inputType="textMultiLine"
+            android:padding="16dp"
+            android:textColor="#333333"
+            android:textColorHint="#999999"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_expand_back"
+            app:layout_constraintWidth_max="400dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

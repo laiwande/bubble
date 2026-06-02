@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true">
+
+    <!-- 背景定位锚点（参考 create 的 tv_title） -->
+    <Space
+        android:id="@+id/view_anchor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="110dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 背景图片：参考 create 页面，不满屏 -->
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_shop"
+        android:layout_marginTop="-70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_anchor" />
+
+    <!-- 返回按钮 -->
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="64dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_back"
+        app:tint="#4B3E5F"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 金币区域 -->
+    <LinearLayout
+        android:id="@+id/ll_coins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="42dp"
+            android:layout_height="42dp">
+
+            <ImageView
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_bubble_container" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_coin"
+                app:tint="#FFD700" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_coins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="15300"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- 中间预览卡片：底图 card_lottery_bg + 符号覆盖层 -->
+    <FrameLayout
+        android:id="@+id/fl_card_preview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_back"
+        app:layout_constraintBottom_toTopOf="@id/cards_scroll"
+        app:layout_constraintVertical_bias="0.15">
+
+        <ImageView
+            android:id="@+id/iv_card_preview_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_lottery_bg" />
+
+        <ImageView
+            android:id="@+id/iv_card_preview_symbol"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <!-- 结果卡片覆盖层（默认隐藏） -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/result_card_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="48dp"
+        android:visibility="gone"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_back"
+        app:layout_constraintBottom_toTopOf="@id/cards_scroll"
+        app:layout_constraintVertical_bias="0.15">
+
+        <ImageView
+            android:id="@+id/iv_result_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/card_lottery_bg_empty"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_share"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:padding="4dp"
+            android:src="@drawable/card_lottery_redirect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_bubble_capsule"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="70dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/card_lottery_bubble1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_new"
+            android:layout_width="88dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="90dp"
+            android:src="@drawable/card_lottery_font_new"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_bubble_capsule" />
+
+        <TextView
+            android:id="@+id/tv_card_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:fontFamily="@font/gloriahallelujah"
+            android:text="No. 1000001"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_new" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 刷新按钮 -->
+    <ImageView
+        android:id="@+id/iv_refresh"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="7dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_refresh"
+        app:layout_constraintBottom_toTopOf="@id/cards_scroll"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 底部卡片层叠区：10张卡片水平叠放 -->
+    <HorizontalScrollView
+        android:id="@+id/cards_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-22dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingTop="50dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/cards_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clipChildren="false">
+
+            <include
+                android:id="@+id/card_01"
+                layout="@layout/item_shop_card"
+                android:layout_width="105dp"
+                android:layout_height="140dp" />
+
+            <include
+                android:id="@+id/card_02"
+                layout="@layout/item_shop_card"
+                android:layout_width="105dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="-42dp" />
+
+            <include
+                android:id="@+id/card_03"
+                layout="@layout/item_shop_card"
+                android:layout_width="105dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="-42dp" />
+
+            <include
+                android:id="@+id/card_04"
+                layout="@layout/item_shop_card"
+                android:layout_width="105dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="-42dp" />
+
+            <include
+                android:id="@+id/card_05"
+                layout="@layout/item_shop_card"
+                android:layout_width="105dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="-42dp" />
+
+            <include
+                android:id="@+id/card_06"
+                layout="@layout/item_shop_card"
+                android:layout_width="105dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="-42dp" />
+
+            <include
+                android:id="@+id/card_07"
+                layout="@layout/item_shop_card"
+                android:layout_width="105dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="-42dp" />
+
+            <include
+                android:id="@+id/card_08"
+                layout="@layout/item_shop_card"
+                android:layout_width="105dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="-42dp" />
+
+            <include
+                android:id="@+id/card_09"
+                layout="@layout/item_shop_card"
+                android:layout_width="105dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="-42dp" />
+
+            <include
+                android:id="@+id/card_10"
+                layout="@layout/item_shop_card"
+                android:layout_width="105dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="-42dp" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
