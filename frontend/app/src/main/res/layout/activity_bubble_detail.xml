@@ -236,7 +236,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/inter"
-                android:maxLines="6"
+                android:maxLines="10"
                 android:ellipsize="end" />
         </LinearLayout>
     </FrameLayout>
