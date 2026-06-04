@@ -1,5 +1,6 @@
 package com.bubble.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -306,8 +307,12 @@ public class CreateActivity extends AppCompatActivity {
     }
 
     private void createBubble() {
-        // TODO: 调用 API 创建 Bubble
-        Toast.makeText(this, "正在创建 Bubble: " + bubbleName, Toast.LENGTH_SHORT).show();
+        // 跳转到 BubbleDetailActivity 并传递数据
+        Intent intent = new Intent(this, BubbleDetailActivity.class);
+        intent.putStringArrayListExtra(BubbleDetailActivity.EXTRA_BUBBLE_LABELS, new ArrayList<>(bubbleLabelTags));
+        intent.putExtra(BubbleDetailActivity.EXTRA_BUBBLE_NAME, bubbleName);
+        startActivity(intent);
+        finish();
     }
 
     public String getBubbleName() {

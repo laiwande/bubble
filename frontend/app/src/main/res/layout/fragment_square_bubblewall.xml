@@ -22,10 +22,14 @@
 
             <!-- 第一个泡泡卡片 -->
             <FrameLayout
+                android:id="@+id/card_bubble_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -89,9 +93,13 @@
 
             <!-- 第二个泡泡卡片 -->
             <FrameLayout
+                android:id="@+id/card_bubble_two"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <ImageView
                     android:layout_width="match_parent"
