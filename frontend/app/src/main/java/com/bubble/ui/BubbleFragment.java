@@ -1,5 +1,6 @@
 package com.bubble.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,9 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.bubble.R;
+import com.bubble.ui.model.BubbleInfo;
 import android.graphics.Rect;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class BubbleFragment extends Fragment {
@@ -24,6 +28,9 @@ public class BubbleFragment extends Fragment {
     private Random random = new Random();
 
     private static final List<BubbleItem> BUBBLES = new ArrayList<>();
+
+    // 泡泡名称 -> 详细信息映射（用于跳转到详情页）
+    private static final Map<String, BubbleInfo> BUBBLE_INFO_MAP = new HashMap<>();
 
     static {
         BUBBLES.add(new BubbleItem("临港大学生", 1.3f));
@@ -39,6 +46,74 @@ public class BubbleFragment extends Fragment {
         BUBBLES.add(new BubbleItem("魔芋爽", 0.65f));
         BUBBLES.add(new BubbleItem("Jove", 0.55f));
         BUBBLES.add(new BubbleItem("soup", 0.5f));
+
+        // 初始化泡泡详细信息
+        BUBBLE_INFO_MAP.put("蛋蛋后杰迷", new BubbleInfo(
+                "蛋蛋后杰迷",
+                "🎸 【蛋蛋后杰迷】— 一起摇滚，一起emo！🎤\n" +
+                "你是否听着周杰伦的歌长大？你是否对《七里香》《夜曲》倒背如流？你是否还在和朋友争论《最伟大的作品》到底是不是神专？\n" +
+                "🎶 不管你是怀旧派，还是新专吹，这里都是你的主场！\n" +
+                "🥚 蛋蛋后——00后，正好卡在听磁带懂黑胶的年代！\n" +
+                "👑 杰迷——无论几岁，心里都住着那个穿白T恤、戴鸭舌帽的周董！\n" +
+                "🎶来吧！加入【蛋蛋后杰迷】，我们一起哼唱《晴天》，聊聊哥的青春，再狠狠地为青春流一滴感动的泪！😭",
+                R.drawable.ic_square_bubblecardone
+        ));
+        BUBBLE_INFO_MAP.put("Swiftie Gals", new BubbleInfo(
+                "Swiftie Gals",
+                "Welcome to \"Swiftie Gals\" - Where We Never Go Out of Style!\nWhether you're a Day 1 Swiftie, a Red-era romantic, a folklore/evermore poet, or a fresh TTPD convert, this is your safe space to geek out over every easter egg, bridge change, and Taylor's Version re-recording.\nFrom crying in the car to singing at the top of your lungs — we get it.\nNo judgment, just friendship, playlists, and theories. Let's stay up 'til 2am analyzing lyrics together! ✨",
+                R.drawable.ic_square_bubblecardone
+        ));
+        BUBBLE_INFO_MAP.put("临港大学生", new BubbleInfo(
+                "临港大学生",
+                "🏫 【临港大学生】— 临港人的专属聚集地！\n" +
+                "无论你是电机、建桥、海事还是海洋大学，这里都有你的校友！\n" +
+                "🚌 一起吐槽16号线，一起分享食堂避雷指南\n" +
+                "📚 约图书馆自习、约滴水湖夜跑、约共享区干饭\n" +
+                "💬 聊聊临港的冷与热，说说大学里的那些事儿\n" +
+                "加入我们，让临港的大学生活不再孤单！",
+                R.drawable.ic_square_bubblecardone
+        ));
+        BUBBLE_INFO_MAP.put("张国荣影迷", new BubbleInfo(
+                "张国荣影迷",
+                "🕯️ 【张国荣影迷】— 风华绝代，永恒传奇\n" +
+                "“人生无常，唯独哥哥的爱有常。”\n" +
+                "🎬 从《霸王别姬》到《阿飞正传》，从《春光乍泄》到《胭脂扣》\n" +
+                "🎵 《风继续吹》《当年情》《我》《沉默是金》...每一首都是经典\n" +
+                "🌹 哥哥离开我们已经很多年，但他的作品和精神永远活在我们心中\n" +
+                "来这里，和荣迷们一起怀念那位风华绝代的男子，分享你最爱的一部戏、一首歌。",
+                R.drawable.ic_square_bubblecardone
+        ));
+        BUBBLE_INFO_MAP.put("明日方舟", new BubbleInfo(
+                "明日方舟",
+                "⚔️ 【明日方舟】— 博士，刀客塔正在等你归队！\n" +
+                "罗德岛制药有限公司，为您服务。\n" +
+                "🛡️ 你是喜欢重装挡前排，还是术师后排输出？\n" +
+                "🔫 先锋、近卫、重装、狙击、术师、医疗、辅助、特种——你的本命干员是谁？\n" +
+                "🎮 交流关卡攻略、讨论剧情走向、分享抽卡欧非时刻\n" +
+                "博士，行动开始！",
+                R.drawable.ic_square_bubblecardone
+        ));
+        BUBBLE_INFO_MAP.put("OOR", new BubbleInfo(
+                "OOR",
+                "🎸 【ONE OK ROCK】— 欢迎来到日摇的世界！\n" +
+                "Taka / Toru / Ryota / Tomoya — 日本摇滚天团！\n" +
+                "🔥 The Beginning、Mighty Long Fall、We Are、Renegades...\n" +
+                "🌏 从日本武道馆到世界巡演，OOR 用音乐征服全球\n" +
+                "🤘 不管你是从哪张专辑入坑的老粉，还是刚被安利的新人\n" +
+                "这里就是 OOR 粉丝的大本营！一起来为日摇打 Call 吧！",
+                R.drawable.ic_square_bubblecardone
+        ));
+        // 默认模板：其他泡泡使用通用内容
+        String[] otherNames = {"movie", "guitar", "Disney", "胡闹厨房", "迷跑计划", "魔芋爽", "Jove", "soup"};
+        for (String name : otherNames) {
+            if (!BUBBLE_INFO_MAP.containsKey(name)) {
+                BUBBLE_INFO_MAP.put(name, new BubbleInfo(
+                        name,
+                        "欢迎来到【" + name + "】泡泡！\n\n这里是一群志同道合的小伙伴的聚集地。\n快来和大家一起聊天、分享、玩耍吧！✨",
+                        R.drawable.ic_square_bubblecardone
+                ));
+            }
+        }
     }
 
     @Nullable
@@ -98,6 +173,22 @@ public class BubbleFragment extends Fragment {
                 // 创建气泡容器
                 FrameLayout bubbleContainerView = new FrameLayout(requireContext());
                 bubbleContainerView.setLayoutParams(params);
+                bubbleContainerView.setClickable(true);
+                bubbleContainerView.setFocusable(true);
+
+                // 设置点击事件：跳转到 BubbleDetailActivity
+                final String bubbleName = bubbleItem.text;
+                bubbleContainerView.setOnClickListener(v -> {
+                    BubbleInfo info = BUBBLE_INFO_MAP.get(bubbleName);
+                    if (info == null) {
+                        info = new BubbleInfo(bubbleName,
+                                "欢迎来到【" + bubbleName + "】泡泡！\n\n这里是一群志同道合的小伙伴的聚集地。\n快来和大家一起聊天、分享、玩耍吧！✨",
+                                R.drawable.ic_square_bubblecardone);
+                    }
+                    Intent intent = new Intent(requireContext(), BubbleDetailActivity.class);
+                    intent.putExtra(BubbleDetailActivity.EXTRA_BUBBLE_INFO, info);
+                    startActivity(intent);
+                });
 
                 // 创建气泡背景图
                 ImageView bubbleView = new ImageView(requireContext());
