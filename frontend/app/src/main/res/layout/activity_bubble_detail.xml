@@ -235,7 +235,9 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:fontFamily="@font/inter" />
+                android:fontFamily="@font/inter"
+                android:maxLines="6"
+                android:ellipsize="end" />
         </LinearLayout>
     </FrameLayout>
 
