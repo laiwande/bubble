@@ -1,5 +1,6 @@
 package com.bubble.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -51,5 +52,21 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         read.setMessageId(messageId);
         read.setUserId(userId);
         messageReadMapper.insert(read);
+    }
+
+    @Override
+    @Transactional
+    public Conversation findOrCreateBubbleConversation(Long bubbleId) {
+        LambdaQueryWrapper<Conversation> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Conversation::getType, "bubble")
+               .eq(Conversation::getTargetId, bubbleId);
+        Conversation conversation = conversationMapper.selectOne(wrapper);
+        if (conversation == null) {
+            conversation = new Conversation();
+            conversation.setType("bubble");
+            conversation.setTargetId(bubbleId);
+            conversationMapper.insert(conversation);
+        }
+        return conversation;
     }
 }

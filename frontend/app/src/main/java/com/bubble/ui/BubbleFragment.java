@@ -1,5 +1,6 @@
 package com.bubble.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -8,37 +9,52 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+
 import com.bubble.R;
-import android.graphics.Rect;
+import com.bubble.model.Bubble;
+import com.bubble.model.PageData;
+import com.bubble.model.Result;
+import com.bubble.network.ApiClient;
+import com.bubble.network.ApiService;
+import com.bubble.utils.SharedPreferencesUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BubbleFragment extends Fragment {
 
     private FrameLayout bubbleContainer;
     private View telescopeView;
     private Random random = new Random();
+    private ApiService apiService;
 
     private static final List<BubbleItem> BUBBLES = new ArrayList<>();
 
+    // 静态默认数据（API 加载失败时使用 fallback）
     static {
-        BUBBLES.add(new BubbleItem("临港大学生", 1.3f));
-        BUBBLES.add(new BubbleItem("蛋蛋后杰迷", 1.2f));
-        BUBBLES.add(new BubbleItem("张国荣影迷", 1.5f));
-        BUBBLES.add(new BubbleItem("明日方舟", 1.1f));
-        BUBBLES.add(new BubbleItem("OOR", 0.8f));
-        BUBBLES.add(new BubbleItem("movie", 0.9f));
-        BUBBLES.add(new BubbleItem("guitar", 0.85f));
-        BUBBLES.add(new BubbleItem("Disney", 0.9f));
-        BUBBLES.add(new BubbleItem("胡闹厨房", 0.65f));
-        BUBBLES.add(new BubbleItem("迷跑计划", 0.7f));
-        BUBBLES.add(new BubbleItem("魔芋爽", 0.65f));
-        BUBBLES.add(new BubbleItem("Jove", 0.55f));
-        BUBBLES.add(new BubbleItem("soup", 0.5f));
+        BUBBLES.add(new BubbleItem(-1L, "临港大学生", 1.3f));
+        BUBBLES.add(new BubbleItem(-1L, "蛋蛋后杰迷", 1.2f));
+        BUBBLES.add(new BubbleItem(-1L, "张国荣影迷", 1.5f));
+        BUBBLES.add(new BubbleItem(-1L, "明日方舟", 1.1f));
+        BUBBLES.add(new BubbleItem(-1L, "OOR", 0.8f));
+        BUBBLES.add(new BubbleItem(-1L, "movie", 0.9f));
+        BUBBLES.add(new BubbleItem(-1L, "guitar", 0.85f));
+        BUBBLES.add(new BubbleItem(-1L, "Disney", 0.9f));
+        BUBBLES.add(new BubbleItem(-1L, "胡闹厨房", 0.65f));
+        BUBBLES.add(new BubbleItem(-1L, "迷跑计划", 0.7f));
+        BUBBLES.add(new BubbleItem(-1L, "魔芋爽", 0.65f));
+        BUBBLES.add(new BubbleItem(-1L, "Jove", 0.55f));
+        BUBBLES.add(new BubbleItem(-1L, "soup", 0.5f));
     }
 
     @Nullable
@@ -52,7 +68,64 @@ public class BubbleFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         bubbleContainer = view.findViewById(R.id.bubble_container);
         telescopeView = view.findViewById(R.id.ic_telescope);
+        apiService = ApiClient.getApiService();
 
+        // 先从后端加载 Bubble 列表
+        loadBubblesFromApi();
+    }
+
+    /**
+     * 从后端 API 加载 Bubble 列表，成功后替换静态数据并重新渲染
+     */
+    private void loadBubblesFromApi() {
+        SharedPreferencesUtil spUtil = new SharedPreferencesUtil(requireContext());
+        String token = spUtil.getToken();
+        apiService.getBubbleList("Bearer " + token, 1, 50, false).enqueue(new Callback<Result<PageData<Bubble>>>() {
+            @Override
+            public void onResponse(Call<Result<PageData<Bubble>>> call, Response<Result<PageData<Bubble>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getCode() == 200) {
+                    PageData<Bubble> pageData = response.body().getData();
+                    if (pageData != null && pageData.getRecords() != null && !pageData.getRecords().isEmpty()) {
+                        updateBubblesFromApi(pageData.getRecords());
+                        return;
+                    }
+                }
+                // API 失败或数据为空，使用静态 fallback
+                renderBubbles();
+            }
+
+            @Override
+            public void onFailure(Call<Result<PageData<Bubble>>> call, Throwable t) {
+                // 网络错误，使用静态 fallback
+                renderBubbles();
+            }
+        });
+    }
+
+    /**
+     * 用 API 数据替换 BUBBLES 列表，然后重新渲染
+     */
+    private void updateBubblesFromApi(List<Bubble> bubbleList) {
+        BUBBLES.clear();
+        float minSize = 0.5f;
+        float maxSize = 1.5f;
+        float range = maxSize - minSize;
+        int count = bubbleList.size();
+
+        for (int i = 0; i < count; i++) {
+            Bubble apiBubble = bubbleList.get(i);
+            // 根据位置分配大小，让靠前的稍微大一点
+            float sizeRatio = maxSize - (range * i / Math.max(count - 1, 1));
+            BUBBLES.add(new BubbleItem(apiBubble.getId(), apiBubble.getName(), sizeRatio));
+        }
+
+        renderBubbles();
+    }
+
+    /**
+     * 渲染气泡（从 BUBBLES 列表生成）
+     */
+    private void renderBubbles() {
         // 等待布局完成后再生成泡泡
         bubbleContainer.post(this::generateRandomBubbles);
     }
@@ -63,6 +136,9 @@ public class BubbleFragment extends Fragment {
 
         if (containerWidth == 0) containerWidth = 1080;
         if (containerHeight == 0) containerHeight = 1400;
+
+        // 清空泡泡容器（望远镜在布局中是 bubble_container 的兄弟节点，不会被移除）
+        bubbleContainer.removeAllViews();
 
         // 计算望远镜相对于泡泡容器的禁区矩形（扩展一些边距确保不重叠）
         Rect telescopeZone = getTelescopeZone(containerWidth, containerHeight);
@@ -77,8 +153,8 @@ public class BubbleFragment extends Fragment {
 
         List<BubblePlacement> placedBubbles = new ArrayList<>();
 
-        for (int i = 0; i < bubbleCount; i++) {
-            BubbleItem bubbleItem = BUBBLES.get(random.nextInt(BUBBLES.size()));
+        for (int i = 0; i < bubbleCount && i < BUBBLES.size(); i++) {
+            BubbleItem bubbleItem = BUBBLES.get(i);
 
             // 所有的泡泡都使用统一的最大尺寸，或稍小的随机尺寸（但不超 maxBubbleSize）
             float sizeVariation = 0.85f + random.nextFloat() * 0.15f; // 0.85 ~ 1.0
@@ -110,7 +186,7 @@ public class BubbleFragment extends Fragment {
                 TextView textView = new TextView(requireContext());
                 textView.setText(bubbleItem.text);
                 textView.setGravity(Gravity.CENTER);
-                textView.setTypeface(getResources().getFont(R.font.inter), android.graphics.Typeface.BOLD);
+                textView.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.inter), android.graphics.Typeface.BOLD);
                 textView.setTextColor(android.graphics.Color.WHITE);
                 float textSize = 11f * sizeVariation + 4f;
                 textView.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, textSize);
@@ -125,6 +201,19 @@ public class BubbleFragment extends Fragment {
                 // 添加视图到容器
                 bubbleContainerView.addView(bubbleView);
                 bubbleContainerView.addView(textView);
+
+                // 设置点击事件跳转到 BubbleDetailActivity
+                final Long bubbleId = bubbleItem.id;
+                final String bubbleName = bubbleItem.text;
+                bubbleContainerView.setOnClickListener(v -> {
+                    if (bubbleId != -1L) {
+                        Intent intent = new Intent(requireContext(), BubbleDetailActivity.class);
+                        intent.putExtra(BubbleDetailActivity.EXTRA_BUBBLE_ID, bubbleId);
+                        intent.putExtra(BubbleDetailActivity.EXTRA_BUBBLE_NAME, bubbleName);
+                        startActivity(intent);
+                    }
+                });
+
                 bubbleContainer.addView(bubbleContainerView);
             }
         }
@@ -179,23 +268,13 @@ public class BubbleFragment extends Fragment {
 
     /**
      * 获取不重叠的随机位置
-     * 核心约束：任意两个泡泡的中心点距离 >= maxBubbleSize (即 2 * maxRadius)，且不与望远镜重叠
-     *
-     * @param containerWidth 容器宽度
-     * @param containerHeight 容器高度
-     * @param bubbleSize 当前泡泡的实际尺寸
-     * @param maxSize 所有泡泡的最大允许尺寸（用于计算最小中心距）
-     * @param placedBubbles 已放置的泡泡列表
-     * @param telescopeZone 望远镜禁区（相对于容器坐标）
-     * @return 合适的位置，如果找不到则返回 null
      */
     private BubblePlacement getRandomPosition(int containerWidth, int containerHeight, int bubbleSize,
                                               int maxSize, List<BubblePlacement> placedBubbles,
                                               Rect telescopeZone) {
-        int maxAttempts = 300; // 增加尝试次数
+        int maxAttempts = 300;
         int attempts = 0;
 
-        // 最小中心距 = maxSize (即 2*maxRadius)，确保任何泡泡之间不会重叠
         float minCenterDist = maxSize;
         int padding = (int) dpToPx(20);
 
@@ -203,7 +282,6 @@ public class BubbleFragment extends Fragment {
             int x = padding + random.nextInt(Math.max(1, containerWidth - bubbleSize - padding * 2));
             int y = padding + random.nextInt(Math.max(1, containerHeight - bubbleSize - padding * 2));
 
-            // 检查是否在望远镜禁区内
             if (isInTelescopeZone(x, y, bubbleSize, telescopeZone)) {
                 attempts++;
                 continue;
@@ -211,7 +289,6 @@ public class BubbleFragment extends Fragment {
 
             boolean tooClose = false;
             for (BubblePlacement placed : placedBubbles) {
-                // 计算当前泡泡中心点与已放置泡泡中心点的距离
                 float centerX = x + bubbleSize / 2f;
                 float centerY = y + bubbleSize / 2f;
                 float placedCenterX = placed.x + placed.size / 2f;
@@ -220,7 +297,6 @@ public class BubbleFragment extends Fragment {
                 double distance = Math.sqrt(Math.pow(centerX - placedCenterX, 2)
                         + Math.pow(centerY - placedCenterY, 2));
 
-                // 核心约束：距离必须 >= minCenterDist (即 2 * maxRadius)
                 if (distance < minCenterDist) {
                     tooClose = true;
                     break;
@@ -233,12 +309,11 @@ public class BubbleFragment extends Fragment {
             attempts++;
         }
 
-        // 尝试使用泊松盘采样的网格搜索作为回退
         return getGridFallbackPosition(containerWidth, containerHeight, bubbleSize, maxSize, placedBubbles, telescopeZone);
     }
 
     /**
-     * 网格回退布局：基于泊松盘采样思想，按网格逐步搜索可用位置
+     * 网格回退布局
      */
     private BubblePlacement getGridFallbackPosition(int containerWidth, int containerHeight, int bubbleSize,
                                                     int maxSize, List<BubblePlacement> placedBubbles,
@@ -246,10 +321,8 @@ public class BubbleFragment extends Fragment {
         float minCenterDist = maxSize;
         int padding = (int) dpToPx(20);
 
-        // 使用较细的网格进行回退搜索
-        int gridStep = (int) (minCenterDist * 0.4f); // 网格步长
+        int gridStep = (int) (minCenterDist * 0.4f);
 
-        // 随机化起始位置，避免每次都从左上角开始
         int offsetX = random.nextInt(gridStep);
         int offsetY = random.nextInt(gridStep);
 
@@ -262,7 +335,6 @@ public class BubbleFragment extends Fragment {
                     continue;
                 }
 
-                // 检查是否在望远镜禁区内
                 if (isInTelescopeZone(x, y, bubbleSize, telescopeZone)) {
                     continue;
                 }
@@ -289,11 +361,11 @@ public class BubbleFragment extends Fragment {
             }
         }
 
-        return null; // 放弃此泡泡，避免重叠
+        return null;
     }
 
     /**
-     * 检查泡泡是否与望远镜禁区重叠（使用矩形相交检测）
+     * 检查泡泡是否与望远镜禁区重叠
      */
     private boolean isInTelescopeZone(int bubbleX, int bubbleY, int bubbleSize, Rect zone) {
         if (zone == null || zone.isEmpty()) {
@@ -312,9 +384,34 @@ public class BubbleFragment extends Fragment {
         BubblePlacement(int x, int y, int size) { this.x = x; this.y = y; this.size = size; }
     }
 
+    /**
+     * 用 Rect 替代 android.graphics.Rect，避免冲突
+     */
+    private static class Rect {
+        int left, top, right, bottom;
+
+        Rect() {}
+        Rect(int left, int top, int right, int bottom) {
+            this.left = left;
+            this.top = top;
+            this.right = right;
+            this.bottom = bottom;
+        }
+
+        boolean isEmpty() {
+            return left >= right || top >= bottom;
+        }
+
+        static boolean intersects(Rect a, Rect b) {
+            return a.left < b.right && b.left < a.right
+                    && a.top < b.bottom && b.top < a.bottom;
+        }
+    }
+
     private static class BubbleItem {
+        long id;
         String text;
         float size;
-        BubbleItem(String text, float size) { this.text = text; this.size = size; }
+        BubbleItem(long id, String text, float size) { this.id = id; this.text = text; this.size = size; }
     }
 }

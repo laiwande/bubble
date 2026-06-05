@@ -66,11 +66,11 @@ data:
 ```
 
 首次启动前需执行 `backend/sql/init.sql` 初始化数据库表结构
+如有需要，执行 `backend/sql/init_data.sql` 获得初始化测试数据
 
 ### 后端部署
 
 ```bash
-git clone https://github.com/your-username/bubble.git
 cd backend
 mvn spring-boot:run
 ```
@@ -103,6 +103,6 @@ private static final String BASE_URL = "http://10.0.2.2:8080/api/";
 
 后端首次启动时会自动创建管理员账号：
 
-| 用户名 | 密码 | 邮箱 |
-|--------|------|------|
-| `admin` | `admin123` | `admin@bubble.com` |
+| 邮箱 | 密码 |
+|--------|------|
+| `admin@bubble.com` | `admin123` |

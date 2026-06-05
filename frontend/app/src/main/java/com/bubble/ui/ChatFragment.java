@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,10 +20,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bubble.R;
 import com.bubble.adapter.ChatBubbleAdapter;
+import com.bubble.model.Bubble;
+import com.bubble.model.PageData;
+import com.bubble.model.Result;
+import com.bubble.network.ApiClient;
+import com.bubble.network.ApiService;
+import com.bubble.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatFragment extends Fragment {
 
@@ -158,59 +169,51 @@ public class ChatFragment extends Fragment {
     }
 
     /**
-     * 加载数据（非硬编码，可替换为网络请求）
-     * TODO: 替换为实际的数据源（API/数据库）
+     * 从后端 API 加载 Bubble 列表
      */
     private void loadData() {
         swipeRefresh.setRefreshing(true);
 
-        List<ChatBubbleAdapter.ChatBubbleItem> dataList = fetchBubbleData();
-        adapter.setData(dataList);
+        SharedPreferencesUtil spUtil = new SharedPreferencesUtil(requireContext());
+        String token = spUtil.getToken();
 
-        swipeRefresh.setRefreshing(false);
-    }
-
-    /**
-     * 获取 Bubble 数据（示例）
-     * 实际项目中应从 API 或 Room 数据库获取
-     */
-    private List<ChatBubbleAdapter.ChatBubbleItem> fetchBubbleData() {
-        List<ChatBubbleAdapter.ChatBubbleItem> dataList = new ArrayList<>();
-        Random random = new Random();
-
-        // TODO: 替换为真实数据源
-        // 例如: apiService.getBubblesByTag(tagNames[selectedTagPosition])
-        String tag = tagNames[selectedTagPosition];
-
-        // 固定生成20个气泡 (i=0 到 i=19, 共20个)
-        int totalBubbles = 20;
-
-        // 随机生成 x (1-10)，表示第一段的数量
-        int x = 1 + random.nextInt(10);
-
-        // 随机生成 n (1-10)，表示第二段的数量
-        int n = 1 + random.nextInt(10);
-
-        for (int i = 0; i < totalBubbles; i++) {
-            String title = "Bubble " + (i + 1);
-            String number = "12398479623" + String.format("%02d", i + 1);
-            int imageResId;
-
-            if (i <= x) {
-                // i=0 到 i=x：使用 ic_chat_listl.webp
-                imageResId = R.drawable.ic_chat_listl;
-            } else if (i <= x + n) {
-                // i=x+1 到 i=x+n：使用 ic_chat_listm.webp
-                imageResId = R.drawable.ic_chat_listm;
-            } else {
-                // 剩余部分：使用 ic_chat_lists.webp
-                imageResId = R.drawable.ic_chat_lists;
+        ApiService apiService = ApiClient.getApiService();
+        apiService.getBubbleList("Bearer " + token, 1, 100, false).enqueue(new Callback<Result<PageData<Bubble>>>() {
+            @Override
+            public void onResponse(Call<Result<PageData<Bubble>>> call, Response<Result<PageData<Bubble>>> response) {
+                swipeRefresh.setRefreshing(false);
+                if (response.isSuccessful() && response.body() != null && response.body().getCode() == 200) {
+                    PageData<Bubble> pageData = response.body().getData();
+                    if (pageData != null && pageData.getRecords() != null) {
+                        List<ChatBubbleAdapter.ChatBubbleItem> itemList = new ArrayList<>();
+                        for (Bubble bubble : pageData.getRecords()) {
+                            int msgCount = bubble.getMessageCount() != null ? bubble.getMessageCount() : 0;
+                            itemList.add(new ChatBubbleAdapter.ChatBubbleItem(
+                                    bubble.getName(),
+                                    String.valueOf(bubble.getId()),
+                                    R.drawable.ic_chat_listl,
+                                    msgCount,
+                                    bubble.getLastMessage()
+                            ));
+                        }
+                        adapter.setData(itemList);
+                    } else {
+                        adapter.setData(new ArrayList<>());
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "加载失败", Toast.LENGTH_SHORT).show();
+                    adapter.setData(new ArrayList<>());
+                }
             }
 
-            dataList.add(new ChatBubbleAdapter.ChatBubbleItem(title, number, imageResId));
-        }
-
-        return dataList;
+            @Override
+            public void onFailure(Call<Result<PageData<Bubble>>> call, Throwable t) {
+                swipeRefresh.setRefreshing(false);
+                Log.e("ChatFragment", "网络错误", t);
+                Toast.makeText(requireContext(), "网络错误，无法加载", Toast.LENGTH_SHORT).show();
+                adapter.setData(new ArrayList<>());
+            }
+        });
     }
 
     /**

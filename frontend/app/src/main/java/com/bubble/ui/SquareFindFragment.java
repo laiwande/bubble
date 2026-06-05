@@ -2,44 +2,79 @@ package com.bubble.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.bubble.R;
+import com.bubble.model.PageData;
+import com.bubble.model.PartnerPost;
+import com.bubble.model.Result;
+import com.bubble.network.ApiClient;
+import com.bubble.network.ApiService;
 import com.bubble.ui.adapter.CardAdapter;
 import com.bubble.ui.model.CardItem;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SquareFindFragment extends Fragment {
 
+    private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerCards;
     private CardAdapter cardAdapter;
     private List<CardItem> cardList;
+
+    private static final String TAG = "SquareFindFragment";
+    private static final Gson gson = new Gson();
+    private static final Type STRING_LIST_TYPE = new TypeToken<ArrayList<String>>(){}.getType();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_square_find, container, false);
-        initRecyclerView(view);
+        initViews(view);
         return view;
     }
 
-    private void initRecyclerView(View view) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        loadData();
+    }
+
+    private void initViews(View view) {
+        swipeRefresh = view.findViewById(R.id.swipe_refresh);
         recyclerCards = view.findViewById(R.id.recycler_cards);
+
         recyclerCards.setLayoutManager(new LinearLayoutManager(getContext()));
-        
-        cardList = getSampleData();
+        recyclerCards.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+
+        cardList = new ArrayList<>();
         cardAdapter = new CardAdapter(cardList);
         recyclerCards.setAdapter(cardAdapter);
 
-        // 卡片点击事件 - 跳转到详情页 (Activity)
+        swipeRefresh.setColorSchemeColors(android.graphics.Color.WHITE);
+        swipeRefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.parseColor("#6C63FF"));
+        swipeRefresh.setOnRefreshListener(this::loadData);
+
+        // 卡片点击事件 - 跳转到详情页
         cardAdapter.setOnCardClickListener((card, position) -> {
             Intent intent = new Intent(requireContext(), PostDetailActivity.class);
             intent.putExtra("title", card.getTitle());
@@ -55,6 +90,108 @@ public class SquareFindFragment extends Fragment {
         });
     }
 
+    /**
+     * 从后端 API 加载找搭子帖子列表
+     */
+    private void loadData() {
+        swipeRefresh.setRefreshing(true);
+
+        ApiService apiService = ApiClient.getApiService();
+        apiService.getPartnerPostList(1, 100).enqueue(new Callback<Result<PageData<PartnerPost>>>() {
+            @Override
+            public void onResponse(Call<Result<PageData<PartnerPost>>> call, Response<Result<PageData<PartnerPost>>> response) {
+                swipeRefresh.setRefreshing(false);
+                if (response.isSuccessful() && response.body() != null && response.body().getCode() == 200) {
+                    PageData<PartnerPost> pageData = response.body().getData();
+                    if (pageData != null && pageData.getRecords() != null) {
+                        cardList.clear();
+                        for (PartnerPost post : pageData.getRecords()) {
+                            cardList.add(convertPartnerPostToCardItem(post));
+                        }
+                        cardAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    Log.e(TAG, "加载帖子列表失败: " + (response.body() != null ? response.body().getMessage() : "空响应"));
+                    Toast.makeText(requireContext(), "加载失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result<PageData<PartnerPost>>> call, Throwable t) {
+                swipeRefresh.setRefreshing(false);
+                Log.e(TAG, "网络错误", t);
+                Toast.makeText(requireContext(), "网络错误，无法加载", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 将后端 PartnerPost 模型转换为前端 CardItem
+     */
+    private CardItem convertPartnerPostToCardItem(PartnerPost post) {
+        // 解析日期: "2025-11-29" -> year=2025, month=11, day=29
+        String year = "";
+        String month = "";
+        String day = "";
+        String activityDate = post.getActivityDate();
+        if (activityDate != null && !activityDate.isEmpty()) {
+            String[] parts = activityDate.split("-");
+            if (parts.length > 0) year = parts[0];
+            if (parts.length > 1) month = parts[1];
+            if (parts.length > 2) day = parts[2];
+        }
+
+        // 解析地址
+        String address = post.getAddress() != null ? post.getAddress() : "";
+        // subtitle 格式: "2025,11,29 Shanghai"
+        String location = address.contains(",") ? address.substring(address.lastIndexOf(",") + 1).trim() : address;
+        String subtitle = year + "," + month + "," + day + " " + location;
+
+        // 构建标签列表
+        List<CardItem.TagItem> tagItems = new ArrayList<>();
+        List<String> wishTags = parseJsonStringList(post.getWishTags());
+        List<String> banTags = parseJsonStringList(post.getBanTags());
+        if (wishTags != null) {
+            for (String tag : wishTags) tagItems.add(new CardItem.TagItem(tag, true));
+        }
+        if (banTags != null) {
+            for (String tag : banTags) tagItems.add(new CardItem.TagItem(tag, false));
+        }
+
+        int partnerNumber = post.getPartnerNumber() != null ? post.getPartnerNumber() : 0;
+
+        CardItem item = new CardItem(
+                post.getTopicName() != null ? post.getTopicName() : "",
+                subtitle,
+                tagItems,
+                0,
+                year, month, day, location,
+                String.valueOf(partnerNumber),
+                post.getDescription() != null ? post.getDescription() : "",
+                wishTags != null ? wishTags : new ArrayList<>(),
+                banTags != null ? banTags : new ArrayList<>()
+        );
+        if (post.getUserId() != null) {
+            item.setUserId(String.valueOf(post.getUserId()));
+        }
+        return item;
+    }
+
+    /**
+     * 解析 JSON 字符串数组，如 "[\"girls\",\"20+\"]"
+     */
+    private List<String> parseJsonStringList(String json) {
+        if (json == null || json.isEmpty() || json.equals("[]")) {
+            return new ArrayList<>();
+        }
+        try {
+            return gson.fromJson(json, STRING_LIST_TYPE);
+        } catch (Exception e) {
+            Log.e(TAG, "解析 JSON 列表失败: " + json, e);
+            return new ArrayList<>();
+        }
+    }
+
     // 添加新卡片到列表（追加到末尾）
     public void addNewCard(CardItem newCard) {
         cardList.add(newCard);
@@ -67,193 +204,5 @@ public class SquareFindFragment extends Fragment {
         cardList.add(0, newCard);
         cardAdapter.notifyItemInserted(0);
         recyclerCards.scrollToPosition(0);
-    }
-
-    private List<CardItem> getSampleData() {
-        List<CardItem> cards = new ArrayList<>();
-        
-        // 卡片1 - 椅子乐团
-        cards.add(new CardItem(
-                "椅子乐团",
-                "2025,11,29 Shanghai",
-                Arrays.asList(
-                        new CardItem.TagItem("girls", true),
-                        new CardItem.TagItem("20+", true),
-                        new CardItem.TagItem("The chairs", true),
-                        new CardItem.TagItem("others", false)
-                ),
-                0,
-                "2025", "11", "29",
-                "Shanghai",
-                "2",
-                "Welcome to join us! 椅子乐团巡回演唱会，寻找志同道合的音乐伙伴一起享受现场！",
-                Arrays.asList("girls", "20+", "The chairs"),
-                Arrays.asList("others")
-        ));
-
-        // 卡片2 - 明日方舟
-        cards.add(new CardItem(
-                "明日方舟2025音律联觉",
-                "2025,3,22 Shanghai",
-                Arrays.asList(
-                        new CardItem.TagItem("老玩家", true),
-                        new CardItem.TagItem("练度高", true),
-                        new CardItem.TagItem("海猫)", false)
-                ),
-                1,
-                "2025", "3", "22",
-                "Shanghai",
-                "3",
-                "音律联觉现场，寻找刀客塔一起为喜欢的角色打call！要求老玩家，练度高优先~",
-                Arrays.asList("老玩家", "练度高"),
-                Arrays.asList("海猫")
-        ));
-
-        // 卡片3 - Vaundy
-        cards.add(new CardItem(
-                "Vaundy",
-                "2025,10,29 Tokyo",
-                Arrays.asList(
-                        new CardItem.TagItem("girls", true),
-                        new CardItem.TagItem("会唱日语", true),
-                        new CardItem.TagItem("只听舞女", false),
-                        new CardItem.TagItem("30+", false)
-                ),
-                2,
-                "2025", "10", "29",
-                "Tokyo",
-                "1",
-                "Vaundy日本巡演东京站！寻找会唱日语歌的女生一起嗨！",
-                Arrays.asList("girls", "会唱日语"),
-                Arrays.asList("只听舞女", "30+")
-        ));
-
-        // 卡片4 - 夏日音乐节
-        cards.add(new CardItem(
-                "夏日音乐节",
-                "2025,6,30 Qingdao",
-                Arrays.asList(
-                        new CardItem.TagItem("海边", true),
-                        new CardItem.TagItem("摇滚", true),
-                        new CardItem.TagItem("啤酒畅饮", true)
-                ),
-                2,
-                "2025", "6", "30",
-                "Qingdao",
-                "4",
-                "青岛夏日海滩音乐节！摇滚、海风、啤酒，寻找志同道合的朋友一起狂欢！",
-                Arrays.asList("海边", "摇滚", "啤酒畅饮"),
-                new ArrayList<>()
-        ));
-
-        // 卡片5 - Billie Eilish
-        cards.add(new CardItem(
-                "Billie Eilish",
-                "2025,7,15 Los Angeles",
-                Arrays.asList(
-                        new CardItem.TagItem("欧美", true),
-                        new CardItem.TagItem("流行", true),
-                        new CardItem.TagItem("碧梨粉丝", true)
-                ),
-                1,
-                "2025", "7", "15",
-                "Los Angeles",
-                "2",
-                "Billie Eilish洛杉矶演唱会！寻找碧梨真粉一起去现场感受她的独特魅力！",
-                Arrays.asList("欧美", "流行", "碧梨粉丝"),
-                new ArrayList<>()
-        ));
-
-        // 卡片6 - 周杰伦
-        cards.add(new CardItem(
-                "周杰伦演唱会",
-                "2025,8,20 Beijing",
-                Arrays.asList(
-                        new CardItem.TagItem("华语", true),
-                        new CardItem.TagItem("20年老粉", true),
-                        new CardItem.TagItem("全场大合唱", true)
-                ),
-                1,
-                "2025", "8", "20",
-                "Beijing",
-                "1",
-                "周杰伦北京演唱会！寻找20年老粉一起全场大合唱，回忆青春！",
-                Arrays.asList("华语", "20年老粉", "全场大合唱"),
-                new ArrayList<>()
-        ));
-
-        // 卡片7 - Aimer
-        cards.add(new CardItem(
-                "Aimer",
-                "2025,9,12 Osaka",
-                Arrays.asList(
-                        new CardItem.TagItem("JPOP", true),
-                        new CardItem.TagItem("天籁嗓音", true),
-                        new CardItem.TagItem("社恐", false)
-                ),
-                2,
-                "2025", "9", "12",
-                "Osaka",
-                "2",
-                "Aimer大阪演唱会！寻找喜欢JPOP的朋友一起感受她的天籁嗓音！",
-                Arrays.asList("JPOP", "天籁嗓音"),
-                Arrays.asList("社恐")
-        ));
-
-        // 卡片8 - 五月天
-        cards.add(new CardItem(
-                "五月天演唱会",
-                "2025,11,11 Taipei",
-                Arrays.asList(
-                        new CardItem.TagItem("五迷", true),
-                        new CardItem.TagItem("蓝三", true),
-                        new CardItem.TagItem("talking太长", false)
-                ),
-                1,
-                "2025", "11", "11",
-                "Taipei",
-                "3",
-                "五月天台北演唱会！寻找五迷一起加入五月天，永远不孤单！",
-                Arrays.asList("五迷", "蓝三"),
-                Arrays.asList("talking太长")
-        ));
-
-        // 卡片9 - RADWIMPS
-        cards.add(new CardItem(
-                "RADWIMPS",
-                "2025,12,25 Tokyo",
-                Arrays.asList(
-                        new CardItem.TagItem("新海诚", true),
-                        new CardItem.TagItem("日系摇滚", true),
-                        new CardItem.TagItem("野田洋次郎", true)
-                ),
-                2,
-                "2025", "12", "25",
-                "Tokyo",
-                "2",
-                "RADWIMPS东京圣诞演唱会！新海诚电影主题曲演唱者，日系摇滚迷不要错过！",
-                Arrays.asList("新海诚", "日系摇滚", "野田洋次郎"),
-                new ArrayList<>()
-        ));
-
-        // 卡片10 - 温州音乐节
-        cards.add(new CardItem(
-                "温州音乐节",
-                "2025,4,6 Wenzhou",
-                Arrays.asList(
-                        new CardItem.TagItem("girls", true),
-                        new CardItem.TagItem("一个人", true),
-                        new CardItem.TagItem("摇滚og真粉丝", true)
-                ),
-                1,
-                "2025", "4", "6",
-                "Wenzhou",
-                "1",
-                "温州本地音乐节！寻找摇滚OG真粉丝，一个人来的女生优先~",
-                Arrays.asList("girls", "一个人", "摇滚og真粉丝"),
-                new ArrayList<>()
-        ));
-
-        return cards;
     }
 }

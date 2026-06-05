@@ -24,6 +24,12 @@ public class Message {
     @SerializedName("createTime")
     private String createTime;
 
+    @SerializedName("nickname")
+    private String nickname;
+
+    @SerializedName("avatar")
+    private String avatar;
+
     public Long getId() {
         return id;
     }
@@ -78,5 +84,21 @@ public class Message {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

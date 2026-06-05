@@ -1,5 +1,8 @@
 package com.bubble.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bubble.dto.PartnerPostCreateDTO;
 import com.bubble.entity.PartnerPost;
@@ -22,5 +25,12 @@ public class PartnerPostServiceImpl extends ServiceImpl<PartnerPostMapper, Partn
         post.setStatus(1); // 默认进行中
         save(post);
         return post;
+    }
+
+    @Override
+    public IPage<PartnerPost> getPostList(Page<PartnerPost> page) {
+        LambdaQueryWrapper<PartnerPost> wrapper = new LambdaQueryWrapper<>();
+        wrapper.orderByDesc(PartnerPost::getCreateTime);
+        return page(page, wrapper);
     }
 }

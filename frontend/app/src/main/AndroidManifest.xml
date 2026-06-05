@@ -35,13 +35,16 @@
             android:exported="false" />
         <activity
             android:name=".ui.ChatConcreteActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Bubble.Chat"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.VerifyActivity"
             android:exported="false" />
         <activity
             android:name=".ui.CreateActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.ShopActivity"
             android:exported="false" />

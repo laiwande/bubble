@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bubble.common.result.Result;
 import com.bubble.dto.MessageSendDTO;
+import com.bubble.entity.Conversation;
 import com.bubble.entity.Message;
 import com.bubble.service.MessageService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,6 +33,12 @@ public class MessageController {
         Page<Message> pageParam = new Page<>(page, size);
         IPage<Message> result = messageService.getMessageList(conversationId, pageParam);
         return Result.success(result);
+    }
+
+    @GetMapping("/conversation/bubble/{bubbleId}")
+    public Result<Conversation> getBubbleConversation(@PathVariable Long bubbleId) {
+        Conversation conversation = messageService.findOrCreateBubbleConversation(bubbleId);
+        return Result.success(conversation);
     }
 
     @GetMapping("/unread")

@@ -3,62 +3,58 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
-    <!-- 背景 bg_chat_bubblebg.webp (和fragment_bubble同样的定位方式: 从welcome往上70dp到底部) -->
+    <!-- 背景气泡图 - 从顶部一直铺到输入栏 -->
     <ImageView
-        android:id="@+id/iv_bg"
+        android:id="@+id/bg_content"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
         android:src="@drawable/bg_chat_bubblebg"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="40dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 左上角返回图标 ic_arrow_back -->
+    <!-- 左上角返回图标 -->
     <ImageView
         android:id="@+id/btn_back"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="48dp"
-        android:elevation="4dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/ic_back"
-        app:tint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/bg_content"
+        app:tint="@android:color/white" />
 
-    <!-- 右上角设置图标 ic_setting -->
+    <!-- 右上角设置图标 -->
     <ImageView
         android:id="@+id/btn_setting"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="48dp"
-        android:elevation="4dp"
         android:src="@drawable/ic_setting"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/bg_content" />
 
-    <!-- 中文字 "蛋蛋后杰迷" simsun字体 -->
+    <!-- 中间标题 -->
     <TextView
         android:id="@+id/tv_chat_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
-        android:text="蛋蛋后杰迷"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/inter_bold"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:fontFamily="@font/inter_bold"
-        android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/bg_content" />
 
-    <!-- 灰色横线 (蛋蛋后杰迷下方) -->
+    <!-- 灰色分隔线 -->
     <View
         android:id="@+id/divider_line"
         android:layout_width="0dp"
@@ -66,12 +62,11 @@
         android:background="#66FFFFFF"
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="12dp"
-        android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_chat_name" />
 
-    <!-- WELCOME 文字 (74%透明度, 复制login样式) -->
+    <!-- WELCOME 文字 -->
     <TextView
         android:id="@+id/tv_welcome"
         android:layout_width="0dp"
@@ -85,36 +80,36 @@
         android:alpha="0.74"
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="230dp"
-        android:elevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 消息列表区域 (占位) -->
-    <View
-        android:id="@+id/message_list_area"
+    <!-- 消息列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_messages"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
+        android:clipToPadding="false"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_welcome"
-        android:layout_marginTop="20dp" />
+        app:layout_constraintTop_toBottomOf="@id/divider_line" />
 
-    <!-- 底部整体区域 (输入栏 + 面板, 统一背景) -->
+    <!-- 底部输入栏区域 -->
     <LinearLayout
         android:id="@+id/bottom_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_chat_input_bar"
-        android:elevation="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <!-- 底部输入栏 (在上方) -->
+        <!-- 底部输入栏 -->
         <LinearLayout
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
@@ -123,7 +118,7 @@
             android:gravity="center_vertical"
             android:paddingHorizontal="24dp">
 
-            <!-- 白色输入框 (自适应宽度) -->
+            <!-- 白色输入框 -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="37dp"
@@ -134,14 +129,12 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="6dp">
 
-                <!-- 左边 camera 图标 ic_chat_bubblecamera -->
                 <ImageView
                     android:id="@+id/iv_camera"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/ic_chat_bubblecamera" />
 
-                <!-- 输入框 -->
                 <EditText
                     android:id="@+id/et_message_input"
                     android:layout_width="0dp"
@@ -154,7 +147,6 @@
                     android:paddingEnd="6dp"
                     android:textSize="14sp" />
 
-                <!-- 右边发送图标 ic_up -->
                 <ImageView
                     android:id="@+id/btn_send"
                     android:layout_width="22dp"
@@ -162,7 +154,6 @@
                     android:src="@drawable/ic_up" />
             </LinearLayout>
 
-            <!-- 加号按钮 ic_plus (输入框右边, 展开时变灰) -->
             <ImageView
                 android:id="@+id/btn_plus"
                 android:layout_width="32dp"
@@ -172,7 +163,7 @@
                 app:tint="#CFCFCF" />
         </LinearLayout>
 
-        <!-- 加号展开面板 (默认隐藏, 点击加号后显示, 在下方) -->
+        <!-- 加号展开面板 -->
         <LinearLayout
             android:id="@+id/panel_more"
             android:layout_width="match_parent"
@@ -184,7 +175,6 @@
             android:visibility="gone"
             tools:visibility="visible">
 
-            <!-- 第一行: 找搭子 | 一起听 | 一起看 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,7 +182,6 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <!-- 找搭子 -->
                 <LinearLayout
                     android:id="@+id/btn_friends"
                     android:layout_width="0dp"
@@ -217,7 +206,6 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <!-- 一起听 -->
                 <LinearLayout
                     android:id="@+id/btn_music"
                     android:layout_width="0dp"
@@ -242,7 +230,6 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <!-- 一起看 -->
                 <LinearLayout
                     android:id="@+id/btn_tv"
                     android:layout_width="0dp"
@@ -268,14 +255,12 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- 第二行: 拼单 | 文件 | + (灰色) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <!-- 拼单 -->
                 <LinearLayout
                     android:id="@+id/btn_groupbuy"
                     android:layout_width="0dp"
@@ -302,7 +287,6 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <!-- 文件 -->
                 <LinearLayout
                     android:id="@+id/btn_file"
                     android:layout_width="0dp"
@@ -328,7 +312,6 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <!-- 加号 -->
                 <LinearLayout
                     android:id="@+id/btn_plus_large"
                     android:layout_width="0dp"

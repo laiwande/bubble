@@ -1,5 +1,7 @@
 package com.bubble.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bubble.common.result.Result;
 import com.bubble.dto.PartnerPostCreateDTO;
 import com.bubble.entity.PartnerPost;
@@ -20,5 +22,14 @@ public class PartnerPostController {
         Long userId = (Long) request.getAttribute("userId");
         PartnerPost post = partnerPostService.createPost(dto, userId);
         return Result.success(post);
+    }
+
+    @GetMapping("/list")
+    public Result<IPage<PartnerPost>> getPostList(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer size) {
+        Page<PartnerPost> pageParam = new Page<>(page, size);
+        IPage<PartnerPost> result = partnerPostService.getPostList(pageParam);
+        return Result.success(result);
     }
 }

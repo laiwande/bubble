@@ -1,9 +1,12 @@
 package com.bubble.ui;
 
+import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -12,10 +15,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bubble.R;
 import com.bubble.databinding.ActivityCreateBinding;
+import com.bubble.model.Bubble;
+import com.bubble.model.Result;
+import com.bubble.network.ApiClient;
+import com.bubble.network.ApiService;
+import com.bubble.utils.SharedPreferencesUtil;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateActivity extends AppCompatActivity {
 
@@ -106,6 +119,7 @@ public class CreateActivity extends AppCompatActivity {
     private void initGenderSlider() {
         // 初始状态：两个复选框都不选，滑块在中间(50)，显示50
         binding.tvGenderValue.setText("50");
+        setGenderValueColor(false); // 初始状态 → 灰色
         
         // 计算滑块偏移量（基于你在XML中调整好的progress=50位置）
         binding.sbGender.post(() -> {
@@ -128,15 +142,17 @@ public class CreateActivity extends AppCompatActivity {
                 binding.sbGender.setProgress(0);
                 binding.tvGenderValue.setText("0");
                 updateGenderValuePosition(0);
+                setGenderValueColor(false); // 复选框选中 → 灰色
             } else {
                 // 取消选中女生
                 binding.ivFemaleCheckbox.setImageResource(R.drawable.cb_female_unchecked);
                 binding.sbGender.setProgress(50);
                 binding.tvGenderValue.setText("50");
                 updateGenderValuePosition(50);
+                setGenderValueColor(false); // 默认状态 → 灰色
             }
         });
-        
+
         // 右侧男生复选框点击
         binding.ivMaleCheckbox.setOnClickListener(v -> {
             isMaleChecked = !isMaleChecked;
@@ -148,12 +164,14 @@ public class CreateActivity extends AppCompatActivity {
                 binding.sbGender.setProgress(100);
                 binding.tvGenderValue.setText("100");
                 updateGenderValuePosition(100);
+                setGenderValueColor(false); // 复选框选中 → 灰色
             } else {
                 // 取消选中男生
                 binding.ivMaleCheckbox.setImageResource(R.drawable.cb_male_unchecked);
                 binding.sbGender.setProgress(50);
                 binding.tvGenderValue.setText("50");
                 updateGenderValuePosition(50);
+                setGenderValueColor(false); // 默认状态 → 灰色
             }
         });
         
@@ -174,21 +192,24 @@ public class CreateActivity extends AppCompatActivity {
                     isMaleChecked = false;
                     binding.ivFemaleCheckbox.setImageResource(R.drawable.cb_female_unchecked);
                     binding.ivMaleCheckbox.setImageResource(R.drawable.cb_male_unchecked);
+                    setGenderValueColor(true); // 拖动中 → #333333深色
                 }
             }
             
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // 开始拖动时取消复选框选中
+                // 开始拖动时取消复选框选中，颜色变深
                 isFemaleChecked = false;
                 isMaleChecked = false;
                 binding.ivFemaleCheckbox.setImageResource(R.drawable.cb_female_unchecked);
                 binding.ivMaleCheckbox.setImageResource(R.drawable.cb_male_unchecked);
+                setGenderValueColor(true); // 开始拖动 → #333333深色
             }
             
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // 停止拖动时的逻辑（可选）
+                // 停止拖动 → 恢复灰色（非选中/非拖动状态）
+                setGenderValueColor(false);
             }
         });
     }
@@ -200,22 +221,33 @@ public class CreateActivity extends AppCompatActivity {
     private void updateGenderValuePosition(int progress) {
         if (binding.sbGender.getWidth() <= 0) return;
 
-        // 直接获取 thumb 在父容器(gender_container)内的中心位置
+        // 获取 thumb 在 gender_container 内的中心位置
         float thumbCenter = binding.genderRow.getLeft()
                 + binding.sbGender.getLeft()
                 + binding.sbGender.getThumb().getBounds().centerX();
 
-        // tv_gender_value 在父容器内的初始中心位置
-        float tvCenter = binding.tvGenderValue.getLeft()
-                + binding.tvGenderValue.getWidth() / 2f;
+        // 考虑 scaleX 计算文字视觉中心
+        float scaleX = binding.tvGenderValue.getScaleX();
+        float tvVisualCenter = binding.tvGenderValue.getLeft()
+                + (binding.tvGenderValue.getWidth() * scaleX) / 2f;
 
-        // 微调偏移：正值右移/下移
-        final float TWEAK_X = 23f;
-        final float TWEAK_Y = 8f;
+        // X方向：文字视觉中心对齐 thumb 中心
+        final float TWEAK_X = 28f;
+        binding.tvGenderValue.setTranslationX(thumbCenter - tvVisualCenter + TWEAK_X);
 
-        // 让数字中心对齐 thumb 中心，相对位置始终不变
-        binding.tvGenderValue.setTranslationX(thumbCenter - tvCenter + TWEAK_X);
-        binding.tvGenderValue.setTranslationY(TWEAK_Y);
+        // Y方向：固定正偏移（负值会超出容器被裁剪导致文字消失）
+        binding.tvGenderValue.setTranslationY(20f);
+    }
+
+    /**
+     * 设置性别数值文字和滑块圆圈的颜色
+     * @param isDragging 是否正在拖动（true=#464646深色, false=灰色）
+     */
+    private void setGenderValueColor(boolean isDragging) {
+        int color = isDragging ? 0xFF464646 : 0xFF999999;
+        binding.tvGenderValue.setTextColor(color);
+        // 同步改变滑块thumb圆圈颜色
+        binding.sbGender.setThumbTintList(ColorStateList.valueOf(color));
     }
 
 
@@ -305,9 +337,69 @@ public class CreateActivity extends AppCompatActivity {
         return true;
     }
 
+    private boolean isCreating = false; // 防重复点击
+
     private void createBubble() {
-        // TODO: 调用 API 创建 Bubble
-        Toast.makeText(this, "正在创建 Bubble: " + bubbleName, Toast.LENGTH_SHORT).show();
+        if (isCreating) return;
+        isCreating = true;
+        binding.btnCreate.setEnabled(false);
+
+        // 获取 token
+        SharedPreferencesUtil spUtil = new SharedPreferencesUtil(this);
+        String token = spUtil.getToken();
+        if (token.isEmpty()) {
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+            resetCreateButton();
+            return;
+        }
+
+        // 构建请求体
+        Map<String, Object> body = new HashMap<>();
+        body.put("name", bubbleName);
+        body.put("description", bubbleWallOriginalText);
+        body.put("allowTags", allowTags);
+        body.put("banTags", banTags);
+        body.put("bubbleLabelTags", bubbleLabelTags);
+
+        // 获取性别比例
+        String genderRatio = binding.tvGenderValue.getText().toString();
+        body.put("genderRatio", genderRatio);
+
+        // 调用 API
+        ApiService apiService = ApiClient.getApiService();
+        apiService.createBubble("Bearer " + token, body).enqueue(new Callback<Result<Bubble>>() {
+            @Override
+            public void onResponse(Call<Result<Bubble>> call, Response<Result<Bubble>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getCode() == 200) {
+                    Toast.makeText(CreateActivity.this, "创建成功!", Toast.LENGTH_SHORT).show();
+                    // 直接跳转到该 bubble 的聊天界面
+                    Bubble createdBubble = response.body().getData();
+                    if (createdBubble != null && createdBubble.getId() != null) {
+                        Intent intent = new Intent(CreateActivity.this, ChatConcreteActivity.class);
+                        intent.putExtra(ChatConcreteActivity.EXTRA_USER_ID, String.valueOf(createdBubble.getId()));
+                        intent.putExtra(ChatConcreteActivity.EXTRA_USER_NAME, createdBubble.getName());
+                        startActivity(intent);
+                    }
+                    finish();
+                } else {
+                    String msg = (response.body() != null) ? response.body().getMessage() : "创建失败";
+                    Toast.makeText(CreateActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    resetCreateButton();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result<Bubble>> call, Throwable t) {
+                Log.e("CreateBubble", "创建失败", t);
+                Toast.makeText(CreateActivity.this, "网络错误，请重试", Toast.LENGTH_SHORT).show();
+                resetCreateButton();
+            }
+        });
+    }
+
+    private void resetCreateButton() {
+        isCreating = false;
+        binding.btnCreate.setEnabled(true);
     }
 
     public String getBubbleName() {
@@ -433,7 +525,7 @@ public class CreateActivity extends AppCompatActivity {
     private void addChipToGroup(String tag, List<String> tagList, ChipGroup chipGroup) {
         Chip chip = new Chip(this);
         chip.setText(tag);
-        chip.setTextSize(8);
+        chip.setTextSize(11);
         chip.setTextColor(0xFFFFFFFF);
         chip.setChipBackgroundColor(android.content.res.ColorStateList.valueOf(0xFF333333));
         boolean isAllow = chipGroup == binding.chipGroupAllow;
@@ -441,19 +533,16 @@ public class CreateActivity extends AppCompatActivity {
         if (isAllow || isBan) {
             chip.setChipIconResource(isAllow ? R.drawable.ic_check_white : R.drawable.ic_square_wrong);
             chip.setChipIconTint(null);
-            chip.setChipIconSize(isAllow ? 14 : 10);
+            chip.setChipIconSize(isAllow ? 20 : 14);
         }
 
-        // 核心间距设置（参考 Post 紧凑风格）
-        chip.setChipStartPadding(-5);
-        chip.setChipEndPadding(0);
-        chip.setTextStartPadding(0);
-        chip.setTextEndPadding(0);
+        // 找搭子风格间距
+        chip.setChipStartPadding(4);
+        chip.setChipEndPadding(4);
+        chip.setTextStartPadding(2);
+        chip.setTextEndPadding(2);
         chip.setIconStartPadding(1);
-        // chip.setIconEndPadding(1);
-        chip.setChipMinHeight(18);
-        // chip.setEnsureMinTouchTargetSize(false);
-        // chip.setCloseIconVisible(false);
+        chip.setChipMinHeight(24);
 
         chip.setOnClickListener(v -> {
             chipGroup.removeView(chip);

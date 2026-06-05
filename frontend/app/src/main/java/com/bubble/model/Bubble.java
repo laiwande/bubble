@@ -1,6 +1,7 @@
 package com.bubble.model;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class Bubble {
     @SerializedName("id")
@@ -32,6 +33,15 @@ public class Bubble {
 
     @SerializedName("description")
     private String description;
+
+    @SerializedName("messageCount")
+    private Integer messageCount;
+
+    @SerializedName("lastMessage")
+    private String lastMessage;
+
+    @SerializedName("labels")
+    private List<String> labels;
 
     public Long getId() {
         return id;
@@ -111,5 +121,29 @@ public class Bubble {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getMessageCount() {
+        return messageCount;
+    }
+
+    public void setMessageCount(Integer messageCount) {
+        this.messageCount = messageCount;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 }

@@ -62,8 +62,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setListener(this);
 
-        // 默认显示Bubble页面
-        switchFragment(R.id.tab_bubble);
+        // 处理从其他 Activity 传来的 tab 导航指令
+        int targetTab = getIntent().getIntExtra("navigate_to", R.id.tab_bubble);
+        switchFragment(targetTab);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int tabId = intent.getIntExtra("navigate_to", -1);
+        if (tabId != -1) {
+            switchFragment(tabId);
+        }
     }
 
     private void switchFragment(int tabId) {

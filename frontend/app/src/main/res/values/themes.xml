@@ -10,4 +10,8 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <!-- Chat 页面专用主题 -->
+    <style name="Theme.Bubble.Chat" parent="Theme.Bubble">
+    </style>
 </resources>

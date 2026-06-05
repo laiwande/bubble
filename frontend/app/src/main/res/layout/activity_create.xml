@@ -288,11 +288,11 @@
                     android:layout_marginStart="-10dp"
                     android:layout_marginBottom="2dp"
                     android:gravity="center"
-                    android:scaleX="0.4"
-                    android:scaleY="0.4"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
                     android:text="50"
                     android:textColor="#ADACA8"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@id/gender_row"
                     app:layout_constraintStart_toStartOf="@id/sb_gender" />
 
@@ -492,7 +492,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                app:chipSpacingHorizontal="-10dp"
                 app:chipSpacingVertical="0dp"
                 app:singleLine="true"
                 app:layout_constrainedWidth="true"

@@ -2,6 +2,8 @@ package com.bubble.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -13,6 +15,8 @@ import com.bubble.model.Result;
 import com.bubble.network.ApiClient;
 import com.bubble.network.ApiService;
 import com.bubble.utils.SharedPreferencesUtil;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -104,6 +108,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (result.getCode() == 200) {
                         String token = result.getData().get("token");
                         sharedPreferencesUtil.saveToken(token);
+                        // 从 JWT 中提取 userId 并保存
+                        saveUserIdFromToken(token);
                         Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
@@ -163,6 +169,24 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "网络错误: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void saveUserIdFromToken(String token) {
+        try {
+            String[] parts = token.split("\\.");
+            if (parts.length >= 2) {
+                byte[] decoded = Base64.decode(parts[1], Base64.URL_SAFE);
+                String payload = new String(decoded, "UTF-8");
+                JSONObject json = new JSONObject(payload);
+                String sub = json.optString("sub");
+                if (sub != null && !sub.isEmpty()) {
+                    sharedPreferencesUtil.saveUserId(Long.parseLong(sub));
+                    Log.d("Login", "userId saved from JWT: " + sub);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("Login", "Failed to extract userId from JWT", e);
+        }
     }
 
     @Override

@@ -25,4 +25,11 @@ public class Message {
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
+
+    // 从selectMessagesWithSender JOIN查询填充，非数据库字段
+    @TableField(exist = false)
+    private String nickname;
+
+    @TableField(exist = false)
+    private String avatar;
 }

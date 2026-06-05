@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bubble.dto.MessageSendDTO;
+import com.bubble.entity.Conversation;
 import com.bubble.entity.Message;
 
 public interface MessageService extends IService<Message> {
@@ -11,4 +12,5 @@ public interface MessageService extends IService<Message> {
     IPage<Message> getMessageList(Long conversationId, Page<Message> page);
     Integer getUnreadCount(Long userId);
     void markAsRead(Long messageId, Long userId);
+    Conversation findOrCreateBubbleConversation(Long bubbleId);
 }

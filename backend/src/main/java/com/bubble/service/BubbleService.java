@@ -9,6 +9,7 @@ import com.bubble.entity.Bubble;
 public interface BubbleService extends IService<Bubble> {
     Bubble createBubble(BubbleCreateDTO dto, Long userId);
     IPage<Bubble> getBubbleList(Page<Bubble> page);
+    IPage<Bubble> getBubbleList(Page<Bubble> page, Long userId, Boolean joined);
     Bubble getBubbleDetail(Long id);
     void joinBubble(Long bubbleId, Long userId);
     void leaveBubble(Long bubbleId, Long userId);

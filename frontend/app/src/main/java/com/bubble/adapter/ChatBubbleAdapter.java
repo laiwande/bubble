@@ -27,11 +27,19 @@ public class ChatBubbleAdapter extends RecyclerView.Adapter<ChatBubbleAdapter.Ch
         public String title;
         public String id;
         public int imageResId;
+        public int messageCount;
+        public String lastMessage;
 
         public ChatBubbleItem(String title, String id, int imageResId) {
+            this(title, id, imageResId, 0, null);
+        }
+
+        public ChatBubbleItem(String title, String id, int imageResId, int messageCount, String lastMessage) {
             this.title = title;
             this.id = id;
             this.imageResId = imageResId;
+            this.messageCount = messageCount;
+            this.lastMessage = lastMessage;
         }
     }
 
@@ -56,14 +64,38 @@ public class ChatBubbleAdapter extends RecyclerView.Adapter<ChatBubbleAdapter.Ch
     public void onBindViewHolder(@NonNull ChatBubbleViewHolder holder, int position) {
         ChatBubbleItem item = dataList.get(position);
         holder.tvTitle.setText(item.title);
-        holder.tvId.setText(item.id);
-        holder.ivBubble.setImageResource(item.imageResId);
+
+        // 显示最后一条消息或占位文字
+        if (item.lastMessage != null && !item.lastMessage.isEmpty()) {
+            holder.tvId.setText(item.lastMessage);
+        } else {
+            holder.tvId.setText("还没有新消息哦~");
+        }
+
+        // 根据消息总数动态选择泡泡样式
+        holder.ivBubble.setImageResource(getBubbleIcon(item.messageCount));
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(item, position);
             }
         });
+    }
+
+    /**
+     * 根据消息数量返回对应等级的星星图标
+     * 低（0-9）→ ic_chat_listl
+     * 中（10-99）→ ic_chat_listm
+     * 高（100+）→ ic_chat_lists
+     */
+    private int getBubbleIcon(int messageCount) {
+        if (messageCount >= 100) {
+            return R.drawable.ic_chat_lists;
+        } else if (messageCount >= 10) {
+            return R.drawable.ic_chat_listm;
+        } else {
+            return R.drawable.ic_chat_listl;
+        }
     }
 
     @Override

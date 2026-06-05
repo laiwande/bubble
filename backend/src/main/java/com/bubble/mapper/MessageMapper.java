@@ -23,4 +23,10 @@ public interface MessageMapper extends BaseMapper<Message> {
             "WHERE mr2.user_id = #{userId}) " +
             "AND mr.sender_id != #{userId}")
     Integer countUnreadMessages(@Param("conversationId") Long conversationId, @Param("userId") Long userId);
+
+    @Select("SELECT COUNT(*) FROM message WHERE conversation_id = #{conversationId}")
+    Integer countByConversationId(@Param("conversationId") Long conversationId);
+
+    @Select("SELECT * FROM message WHERE conversation_id = #{conversationId} ORDER BY create_time DESC LIMIT 1")
+    Message selectLatestByConversationId(@Param("conversationId") Long conversationId);
 }
