@@ -12,7 +12,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.bumptech.glide.Glide;
 import com.bubble.R;
 import com.bubble.ui.model.CardItem;
 import com.bubble.utils.AvatarUtils;
@@ -226,11 +225,6 @@ public class SquareFragment extends Fragment {
         Long userId = spUtil.getUserId();
         String avatarSeed = (userId != null) ? String.valueOf(userId) : String.valueOf(System.currentTimeMillis());
         
-        Glide.with(requireContext())
-                .load(AvatarUtils.getAvatarUrl(avatarSeed))
-                .placeholder(R.drawable.ic_me_user)
-                .error(R.drawable.ic_me_user)
-                .circleCrop()
-                .into(ivAvatarTop);
+        AvatarUtils.loadCuteAvatar(ivAvatarTop, avatarSeed);
     }
 }

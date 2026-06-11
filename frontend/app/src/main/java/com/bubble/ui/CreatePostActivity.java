@@ -33,7 +33,6 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import com.bumptech.glide.Glide;
 
 public class CreatePostActivity extends AppCompatActivity {
 
@@ -132,12 +131,7 @@ public class CreatePostActivity extends AppCompatActivity {
         Long userId = spUtil.getUserId();
         String avatarSeed = (userId != null) ? String.valueOf(userId) : String.valueOf(System.currentTimeMillis());
         
-        Glide.with(this)
-                .load(AvatarUtils.getAvatarUrl(avatarSeed))
-                .placeholder(R.drawable.ic_me_user)
-                .error(R.drawable.ic_me_user)
-                .circleCrop()
-                .into(ivAvatarTop);
+        AvatarUtils.loadCuteAvatar(ivAvatarTop, avatarSeed);
     }
 
     private void initListeners() {

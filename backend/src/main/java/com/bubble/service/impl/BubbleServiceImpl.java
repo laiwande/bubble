@@ -103,7 +103,29 @@ public class BubbleServiceImpl extends ServiceImpl<BubbleMapper, Bubble> impleme
 
     @Override
     public IPage<Bubble> getBubbleList(Page<Bubble> page) {
+        return getBubbleList(page, null, null);
+    }
+
+    @Override
+    public IPage<Bubble> getBubbleList(Page<Bubble> page, Long userId, Boolean joined) {
         LambdaQueryWrapper<Bubble> wrapper = new LambdaQueryWrapper<>();
+        if (joined != null && userId != null) {
+            LambdaQueryWrapper<BubbleMember> memberWrapper = new LambdaQueryWrapper<>();
+            memberWrapper.eq(BubbleMember::getUserId, userId);
+            List<Long> joinedBubbleIds = bubbleMemberMapper.selectList(memberWrapper)
+                    .stream()
+                    .map(BubbleMember::getBubbleId)
+                    .toList();
+
+            if (joined) {
+                if (joinedBubbleIds.isEmpty()) {
+                    return page;
+                }
+                wrapper.in(Bubble::getId, joinedBubbleIds);
+            } else if (!joinedBubbleIds.isEmpty()) {
+                wrapper.notIn(Bubble::getId, joinedBubbleIds);
+            }
+        }
         wrapper.orderByDesc(Bubble::getCreateTime);
         IPage<Bubble> bubblePage = page(page, wrapper);
 

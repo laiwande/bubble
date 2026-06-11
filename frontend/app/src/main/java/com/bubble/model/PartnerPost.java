@@ -6,7 +6,7 @@ public class PartnerPost {
     @SerializedName("id")
     private Long id;
 
-    @SerializedName("userId")
+    @SerializedName(value = "userId", alternate = {"user_id"})
     private Long userId;
 
     @SerializedName("topicName")

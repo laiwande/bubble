@@ -84,17 +84,17 @@ public class ChatBubbleAdapter extends RecyclerView.Adapter<ChatBubbleAdapter.Ch
 
     /**
      * 根据消息数量返回对应等级的星星图标
-     * 低（0-9）→ ic_chat_listl
+     * 低（0-9）→ ic_chat_lists
      * 中（10-99）→ ic_chat_listm
-     * 高（100+）→ ic_chat_lists
+     * 高（100+）→ ic_chat_listl
      */
     private int getBubbleIcon(int messageCount) {
         if (messageCount >= 100) {
-            return R.drawable.ic_chat_lists;
+            return R.drawable.ic_chat_listl;
         } else if (messageCount >= 10) {
             return R.drawable.ic_chat_listm;
         } else {
-            return R.drawable.ic_chat_listl;
+            return R.drawable.ic_chat_lists;
         }
     }
 

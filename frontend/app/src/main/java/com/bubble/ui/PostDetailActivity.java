@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import com.bumptech.glide.Glide;
 import com.bubble.R;
 import com.bubble.utils.AvatarUtils;
 import com.google.android.material.chip.Chip;
@@ -156,12 +155,7 @@ public class PostDetailActivity extends AppCompatActivity {
         Long userId = spUtil.getUserId();
         String avatarSeed = (userId != null) ? String.valueOf(userId) : title;
         
-        Glide.with(this)
-                .load(AvatarUtils.getAvatarUrl(avatarSeed))
-                .placeholder(R.drawable.ic_me_user)
-                .error(R.drawable.ic_me_user)
-                .circleCrop()
-                .into(ivAvatar);
+        AvatarUtils.loadCuteAvatar(ivAvatar, avatarSeed);
     }
 
     private void addChip(ChipGroup chipGroup, String text, boolean isWish) {

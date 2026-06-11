@@ -107,7 +107,7 @@ public class BubbleFragment extends Fragment {
      */
     private void updateBubblesFromApi(List<Bubble> bubbleList) {
         BUBBLES.clear();
-        float minSize = 0.5f;
+        float minSize = 0.35f;
         float maxSize = 1.5f;
         float range = maxSize - minSize;
         int count = bubbleList.size();
@@ -157,7 +157,8 @@ public class BubbleFragment extends Fragment {
             BubbleItem bubbleItem = BUBBLES.get(i);
 
             // 所有的泡泡都使用统一的最大尺寸，或稍小的随机尺寸（但不超 maxBubbleSize）
-            float sizeVariation = 0.85f + random.nextFloat() * 0.15f; // 0.85 ~ 1.0
+            float sizeVariation = (bubbleItem.size / 1.5f) * (0.92f + random.nextFloat() * 0.16f);
+            sizeVariation = Math.max(0.22f, Math.min(1.0f, sizeVariation));
             int baseSize = (int) (maxBubbleSize * sizeVariation);
             if (baseSize > maxBubbleSize) baseSize = maxBubbleSize;
 

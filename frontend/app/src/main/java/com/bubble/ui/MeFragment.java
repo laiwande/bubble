@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
-import com.bumptech.glide.Glide;
 import com.bubble.R;
 import com.bubble.model.User;
 import com.bubble.network.ApiClient;
@@ -94,12 +93,7 @@ public class MeFragment extends Fragment {
         Long userId = sharedPreferencesUtil.getUserId();
         String avatarSeed = (userId != null) ? String.valueOf(userId) : String.valueOf(System.currentTimeMillis());
         
-        Glide.with(requireContext())
-                .load(AvatarUtils.getAvatarUrl(avatarSeed))
-                .placeholder(R.drawable.ic_me_user)
-                .error(R.drawable.ic_me_user)
-                .circleCrop()
-                .into(ivAvatar);
+        AvatarUtils.loadCuteAvatar(ivAvatar, avatarSeed);
     }
 
     /**

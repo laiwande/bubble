@@ -92,14 +92,15 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void loadAvatar(ImageView imageView, String avatarUrl, String seed) {
         // 优先使用真实头像URL，否则用 DiceBear 生成
-        String loadUrl = (avatarUrl != null && !avatarUrl.isEmpty())
-                ? avatarUrl
-                : AvatarUtils.getAvatarUrl(seed);
+        if (avatarUrl == null || avatarUrl.isEmpty()) {
+            AvatarUtils.loadCuteAvatar(imageView, seed);
+            return;
+        }
 
         Glide.with(imageView.getContext())
-                .load(loadUrl)
-                .placeholder(R.drawable.ic_me_user)
-                .error(R.drawable.ic_me_user)
+                .load(avatarUrl)
+                .placeholder(AvatarUtils.createLocalAvatarDrawable(imageView.getContext(), seed))
+                .error(AvatarUtils.createLocalAvatarDrawable(imageView.getContext(), seed))
                 .circleCrop()
                 .into(imageView);
     }
